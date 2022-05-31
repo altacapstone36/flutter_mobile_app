@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'Nunito',
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
       home: const LandingPage(),
     );
