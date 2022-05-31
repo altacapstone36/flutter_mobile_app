@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management/constants.dart';
+import 'package:hospital_management/screen/register/register_screen.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -46,9 +47,14 @@ class LandingPage extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const RegisterScreen()));
+                  },
                   child: const Text(
-                    'GET USERNAME',
+                    'REGISTER',
                     style: TextStyle(fontSize: 14),
                   ),
                   style: TextButton.styleFrom(primary: kSecondaryPurple),
