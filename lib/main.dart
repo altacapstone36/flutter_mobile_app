@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'screen/landing_page.dart';
+import 'package:hospital_management/screen/home/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Nunito',
         primarySwatch: Colors.purple,
       ),
-      home: const LandingPage(),
+      home: const HomeScreen(),
     );
   }
 }
