@@ -13,14 +13,14 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     const Color notActiveColor = Color(0xFFB6B6B6);
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 14),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-                offset: const Offset(0, -15),
+                offset: const Offset(0, -4),
                 blurRadius: 20,
-                color: const Color(0xFFDADADA).withOpacity(0.15))
+                color: Colors.grey.withOpacity(0.5))
           ],
           borderRadius: BorderRadius.circular(20)),
       child: SafeArea(
