@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management/screen/patient/patient_data.dart';
 
 import '../../../components/menu_card.dart';
 
@@ -20,7 +21,19 @@ class Menu extends StatelessWidget {
         children: [
           MenuCard(
               size: size,
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                  return const PatientDataScreen();
+                }, transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                  final tween = Tween(begin: 0.0, end: 2.0);
+                  return FadeTransition(
+                    opacity: animation.drive(tween),
+                    child: child,
+                  );
+                }));
+              },
               image: 'assets/icons/patientData.svg',
               title: 'Patient Data'),
           MenuCard(

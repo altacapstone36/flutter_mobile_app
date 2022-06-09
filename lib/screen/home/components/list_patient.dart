@@ -36,6 +36,9 @@ class PatientList extends StatelessWidget {
                     kode: 'RM123',
                     keluhan: 'Gatal',
                     onTap: () {}),
+                const SizedBox(
+                  width: 15,
+                ),
                 ItemCard(
                     size: size,
                     waktu: '08:00',
@@ -44,6 +47,9 @@ class PatientList extends StatelessWidget {
                     kode: 'RM123',
                     keluhan: 'Gatal',
                     onTap: () {}),
+                const SizedBox(
+                  width: 15,
+                ),
                 ItemCard(
                     size: size,
                     waktu: '08:00',
@@ -52,6 +58,9 @@ class PatientList extends StatelessWidget {
                     kode: 'RM123',
                     keluhan: 'Gatal',
                     onTap: () {}),
+                const SizedBox(
+                  width: 15,
+                ),
                 ItemCard(
                     size: size,
                     waktu: '08:00',
@@ -60,6 +69,9 @@ class PatientList extends StatelessWidget {
                     kode: 'RM123',
                     keluhan: 'Gatal',
                     onTap: () {}),
+                const SizedBox(
+                  width: 15,
+                ),
                 ItemCard(
                     size: size,
                     waktu: '08:00',

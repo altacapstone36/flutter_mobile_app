@@ -21,7 +21,7 @@ class MenuCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(13),
       child: GestureDetector(
-        onTap: () {},
+        onTap: onTap,
         child: Container(
           height: size.height * 0.12,
           width: size.height * 0.12,
