@@ -15,7 +15,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-        height: size.height * 0.25,
+        height: size.height * 0.22,
         width: size.width,
         decoration: const BoxDecoration(
             boxShadow: [
@@ -34,7 +34,7 @@ class Header extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             Padding(
-              padding: EdgeInsets.only(bottom: 15.0, left: 16),
+              padding: EdgeInsets.only(bottom: 20.0, left: 16),
               child: Text(
                 'Good Morning',
                 style: TextStyle(
