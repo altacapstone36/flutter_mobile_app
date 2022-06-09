@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hospital_management/screen/home/home_screen.dart';
+import 'package:hospital_management/screen/other/other_screen.dart';
+import 'package:hospital_management/screen/outpatient/outpatient_screen.dart';
+import 'package:hospital_management/screen/patient/patient_data.dart';
 
 import '../enums.dart';
 import '../constants.dart';
@@ -29,7 +33,16 @@ class BottomNavBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder:
+                                ((context, animation, secondaryAnimation) =>
+                                    const HomeScreen()),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero));
+                  },
                   icon: Icon(
                     Icons.home_outlined,
                     color: MenuState.home == selectedMenu
@@ -37,13 +50,53 @@ class BottomNavBar extends StatelessWidget {
                         : notActiveColor,
                   )),
               IconButton(
-                  onPressed: () {},
-                  icon: SvgPicture.asset('assets/icons/patient.svg')),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder:
+                                ((context, animation, secondaryAnimation) =>
+                                    const PatientDataScreen()),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero)
+                        // MaterialPageRoute(
+                        //     builder: (_) => const PatientDataScreen()),
+                        );
+                  },
+                  icon: SvgPicture.asset(
+                    'assets/icons/patient.svg',
+                    color: MenuState.patient == selectedMenu
+                        ? kPrimaryColor
+                        : notActiveColor,
+                  )),
               IconButton(
-                  onPressed: () {},
-                  icon: SvgPicture.asset('assets/icons/outpatient.svg')),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder:
+                                ((context, animation, secondaryAnimation) =>
+                                    const OutpatientScreen()),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero));
+                  },
+                  icon: SvgPicture.asset(
+                    'assets/icons/outpatient.svg',
+                    color: MenuState.outpatient == selectedMenu
+                        ? kPrimaryColor
+                        : notActiveColor,
+                  )),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder:
+                                ((context, animation, secondaryAnimation) =>
+                                    const OtherScreen()),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero));
+                  },
                   icon: Icon(
                     Icons.menu,
                     color: MenuState.other == selectedMenu
