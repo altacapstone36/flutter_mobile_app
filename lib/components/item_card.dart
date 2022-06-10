@@ -47,9 +47,9 @@ class ItemCard extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   margin: const EdgeInsets.only(bottom: 10),
-                  child: const Padding(
-                    padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
-                    child: Text('08:00'),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 1, 5, 1),
+                    child: Text(waktu),
                   ),
                 ),
               ],
