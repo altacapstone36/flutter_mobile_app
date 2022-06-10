@@ -22,7 +22,7 @@ class OutpatientScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(13.0),
+        padding: const EdgeInsets.fromLTRB(13, 13, 13, 0),
         child: Column(
           children: const [OutpatientData()],
         ),
