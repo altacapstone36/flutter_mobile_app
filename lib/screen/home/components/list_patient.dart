@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management/components/item_card.dart';
 import 'package:hospital_management/constants.dart';
+import 'package:hospital_management/model/outpatient_model.dart';
+
+import '../../detail_outpatient/detail_outpatient.dart';
 
 class PatientList extends StatelessWidget {
   const PatientList({Key? key}) : super(key: key);
@@ -28,58 +31,37 @@ class PatientList extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                ItemCard(
-                    size: size,
-                    waktu: '08:00',
-                    nama: 'Zuli',
-                    antrian: '2',
-                    kode: 'RM123',
-                    keluhan: 'Gatal',
-                    onTap: () {}),
-                const SizedBox(
-                  width: 15,
-                ),
-                ItemCard(
-                    size: size,
-                    waktu: '08:00',
-                    nama: 'Zuli',
-                    antrian: '2',
-                    kode: 'RM123',
-                    keluhan: 'Gatal',
-                    onTap: () {}),
-                const SizedBox(
-                  width: 15,
-                ),
-                ItemCard(
-                    size: size,
-                    waktu: '08:00',
-                    nama: 'Zuli',
-                    antrian: '2',
-                    kode: 'RM123',
-                    keluhan: 'Gatal',
-                    onTap: () {}),
-                const SizedBox(
-                  width: 15,
-                ),
-                ItemCard(
-                    size: size,
-                    waktu: '08:00',
-                    nama: 'Zuli',
-                    antrian: '2',
-                    kode: 'RM123',
-                    keluhan: 'Gatal',
-                    onTap: () {}),
-                const SizedBox(
-                  width: 15,
-                ),
-                ItemCard(
-                    size: size,
-                    waktu: '08:00',
-                    nama: 'Zuli',
-                    antrian: '2',
-                    kode: 'RM123',
-                    keluhan: 'Gatal',
-                    onTap: () {}),
+                ...List.generate(
+                    outpatientList.length,
+                    (index) => Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: ItemCard(
+                              size: size,
+                              waktu: outpatientList[index].waktu!,
+                              nama: outpatientList[index].nama!,
+                              antrian: outpatientList[index].antrian!,
+                              kode: outpatientList[index].kode!,
+                              keluhan: outpatientList[index].keluhan!,
+                              onTap: () {
+                                Navigator.of(context).push(PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                        secondaryAnimation) {
+                                  return DetailOutpatient(
+                                    waktu: outpatientList[index].waktu!,
+                                    nama: outpatientList[index].nama!,
+                                    kode: outpatientList[index].kode!,
+                                    keluhan: outpatientList[index].keluhan!,
+                                  );
+                                }, transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                  final tween = Tween(begin: 0.0, end: 2.0);
+                                  return FadeTransition(
+                                    opacity: animation.drive(tween),
+                                    child: child,
+                                  );
+                                }));
+                              }),
+                        ))
               ],
             ),
           )
