@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management/screen/attendance/attendance_screen.dart';
 import 'package:hospital_management/screen/outpatient/outpatient_screen.dart';
 import 'package:hospital_management/screen/patient/patient_data.dart';
+import 'package:hospital_management/screen/report/report_screen.dart';
+import 'package:hospital_management/screen/schedule/schedule_screen.dart';
 
 import '../../../components/menu_card.dart';
 
@@ -39,17 +42,53 @@ class Menu extends StatelessWidget {
               title: 'Patient Data'),
           MenuCard(
               size: size,
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                  return const ScheduleScreen();
+                }, transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                  final tween = Tween(begin: 0.0, end: 2.0);
+                  return FadeTransition(
+                    opacity: animation.drive(tween),
+                    child: child,
+                  );
+                }));
+              },
               image: 'assets/icons/schedule.svg',
               title: 'Schedule'),
           MenuCard(
               size: size,
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                  return const ReportScreen();
+                }, transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                  final tween = Tween(begin: 0.0, end: 2.0);
+                  return FadeTransition(
+                    opacity: animation.drive(tween),
+                    child: child,
+                  );
+                }));
+              },
               image: 'assets/icons/report.svg',
               title: 'Report Log'),
           MenuCard(
               size: size,
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                  return const AttendanceScreen();
+                }, transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                  final tween = Tween(begin: 0.0, end: 2.0);
+                  return FadeTransition(
+                    opacity: animation.drive(tween),
+                    child: child,
+                  );
+                }));
+              },
               image: 'assets/icons/attendance.svg',
               title: 'Attendance'),
           MenuCard(

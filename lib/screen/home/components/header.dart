@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hospital_management/screen/profile/profile_screen.dart';
 
 import '../../../constants.dart';
 
@@ -32,8 +33,8 @@ class Header extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Padding(
+          children: [
+            const Padding(
               padding: EdgeInsets.only(bottom: 20.0, left: 16),
               child: Text(
                 'Good Morning',
@@ -44,27 +45,42 @@ class Header extends StatelessWidget {
                 ),
               ),
             ),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.blueAccent,
-                child: Text(
-                  'A',
-                  style: TextStyle(color: kSecondaryColor),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                  return const ProfileScreen();
+                }, transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                  final tween = Tween(begin: 0.0, end: 2.0);
+                  return FadeTransition(
+                    opacity: animation.drive(tween),
+                    child: child,
+                  );
+                }));
+              },
+              child: const ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.blueAccent,
+                  child: Text(
+                    'A',
+                    style: TextStyle(color: kSecondaryColor),
+                  ),
                 ),
-              ),
-              title: Text(
-                'Alshad Ahmad',
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: kSecondaryColor,
-                    fontSize: 18),
-              ),
-              subtitle: Text(
-                'General Doctor',
-                style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    color: kSecondaryColor,
-                    fontSize: 14),
+                title: Text(
+                  'Alshad Ahmad',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: kSecondaryColor,
+                      fontSize: 18),
+                ),
+                subtitle: Text(
+                  'General Doctor',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: kSecondaryColor,
+                      fontSize: 14),
+                ),
               ),
             )
           ],
