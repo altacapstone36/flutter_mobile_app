@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management/screen/home/home_screen.dart';
 import 'package:hospital_management/screen/patient/patient_view_model.dart';
+import 'package:hospital_management/screen/report/report_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => PatientViewModel())],
-      child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => PatientViewModel()),
+    ChangeNotifierProvider(create: (_) => ReportViewModel())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hospital_management/components/bottom_nav_bar.dart';
 import 'package:hospital_management/enums.dart';
 import 'package:hospital_management/screen/other/components/card_other_menu.dart';
+import 'package:hospital_management/screen/report/report_screen.dart';
+import 'package:hospital_management/screen/schedule/schedule_screen.dart';
 
 import '../../constants.dart';
+import '../attendance/attendance_screen.dart';
 
 class OtherScreen extends StatelessWidget {
   const OtherScreen({Key? key}) : super(key: key);
@@ -26,15 +29,51 @@ class OtherScreen extends StatelessWidget {
         child: Column(
           children: [
             OtherMenu(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                    return const ScheduleScreen();
+                  }, transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                    final tween = Tween(begin: 0.0, end: 2.0);
+                    return FadeTransition(
+                      opacity: animation.drive(tween),
+                      child: child,
+                    );
+                  }));
+                },
                 title: 'Schedule',
                 icon: Icons.navigate_next_outlined),
             OtherMenu(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                    return const AttendanceScreen();
+                  }, transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                    final tween = Tween(begin: 0.0, end: 2.0);
+                    return FadeTransition(
+                      opacity: animation.drive(tween),
+                      child: child,
+                    );
+                  }));
+                },
                 title: 'Attendace',
                 icon: Icons.navigate_next_outlined),
             OtherMenu(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                    return const ReportScreen();
+                  }, transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                    final tween = Tween(begin: 0.0, end: 2.0);
+                    return FadeTransition(
+                      opacity: animation.drive(tween),
+                      child: child,
+                    );
+                  }));
+                },
                 title: 'Report Log',
                 icon: Icons.navigate_next_outlined),
             OtherMenu(
