@@ -20,11 +20,13 @@ class ListPatient extends StatelessWidget {
                 Navigator.of(context).push(PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) {
                   return DetailPatientScreen(
-                      kode: viewModel.patients[index].kode!,
-                      nik: viewModel.patients[index].nik!,
-                      nama: viewModel.patients[index].nama!,
-                      jKel: viewModel.patients[index].jKel!,
-                      darah: viewModel.patients[index].darah!);
+                    kode: viewModel.patients[index].kode!,
+                    nik: viewModel.patients[index].nik!,
+                    nama: viewModel.patients[index].nama!,
+                    jKel: viewModel.patients[index].jKel!,
+                    darah: viewModel.patients[index].darah!,
+                    medic: viewModel.patients[index].medicRecord,
+                  );
                 }, transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                   final tween = Tween(begin: 0.0, end: 2.0);

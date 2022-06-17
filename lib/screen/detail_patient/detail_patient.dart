@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management/components/bottom_nav_bar.dart';
 import 'package:hospital_management/enums.dart';
+import 'package:hospital_management/model/patient/patient_model.dart';
 
 import '../../constants.dart';
+import '../../model/patient/medic_record_model.dart';
 
 class DetailPatientScreen extends StatelessWidget {
   const DetailPatientScreen(
@@ -11,10 +13,12 @@ class DetailPatientScreen extends StatelessWidget {
       required this.nik,
       required this.nama,
       required this.jKel,
-      required this.darah})
+      required this.darah,
+      required this.medic})
       : super(key: key);
   final String kode, nama, jKel, darah;
   final int nik;
+  final List<MedicRecord> medic;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +103,26 @@ class DetailPatientScreen extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: kPrimaryColor),
+              ),
+              const SizedBox(height: 15),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                    headingRowColor: MaterialStateProperty.all(kSecondaryColor),
+                    columns: const [
+                      DataColumn(label: Text('No')),
+                      DataColumn(label: Text('Tgl Periksa')),
+                      DataColumn(label: Text('Keluhan')),
+                      DataColumn(label: Text('Diagnosa')),
+                    ],
+                    rows: [
+                      ...medic.map((e) => DataRow(cells: [
+                            DataCell(Text(e.id.toString())),
+                            DataCell(Text(e.date!)),
+                            DataCell(Text(e.keluhan!)),
+                            DataCell(Text(e.diagnosa!)),
+                          ]))
+                    ]),
               )
             ],
           ),
