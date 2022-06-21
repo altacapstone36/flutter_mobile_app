@@ -1,18 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management/components/bottom_nav_bar.dart';
 import 'package:hospital_management/enums.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants.dart';
 
-class AttendanceScreen extends StatelessWidget {
+class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({Key? key}) : super(key: key);
 
   @override
+  State<AttendanceScreen> createState() => _AttendanceScreenState();
+}
+
+class _AttendanceScreenState extends State<AttendanceScreen> {
+  String checkIn = '--/--';
+  String checkOut = '--/--';
+  String imageDone = 'assets/images/done.svg';
+  String imageCheck = 'assets/images/check1.svg';
+
+  @override
   Widget build(BuildContext context) {
+    checkInTime() {
+      setState(() {
+        checkIn = DateFormat('hh:mm a').format(DateTime.now());
+      });
+    }
+
+    checkOutTime() {
+      checkOut = DateFormat('hh:mm a').format(DateTime.now());
+    }
+
+    void showToast(String m) => Fluttertoast.showToast(
+          msg: m,
+          gravity: ToastGravity.CENTER,
+          fontSize: 18,
+          backgroundColor: kPrimaryColor,
+          textColor: Colors.white,
+        );
+
     final Size size = MediaQuery.of(context).size;
-    String checkIn = '--/--';
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -42,16 +70,18 @@ class AttendanceScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       SvgPicture.asset(
-                        'assets/images/check1.svg',
+                        checkOut != '--/--' ? imageDone : imageCheck,
                         height: size.height * 0.3,
                         width: size.height * 0.27,
                       ),
                       const SizedBox(
                         height: 15,
                       ),
-                      const Text(
-                        'You can check in now. Pump it up!',
-                        style: TextStyle(
+                      Text(
+                        checkOut != '--/--'
+                            ? 'You all set, see you tomorrow'
+                            : 'You can check in now. Pump it up!',
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       )
                     ],
@@ -62,33 +92,58 @@ class AttendanceScreen extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                'Check in time \t\t:  $checkIn',
+                'Check in time \t\t: $checkIn',
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                'Check out time :',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              Text(
+                'Check out time : $checkOut',
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                width: size.width,
-                child: ElevatedButton(
-                    onPressed: () {
-                      checkIn = DateFormat('hh : mm').format(DateTime.now());
-                    },
-                    style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                    child: const Text('Check In',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white))),
-              )
+              checkOut != '--/--'
+                  ? SizedBox(
+                      width: size.width,
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              primary: const Color(0xFFB0B0B0)),
+                          child: const Text('All Done for Today',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: kSecondaryColor))),
+                    )
+                  : SizedBox(
+                      width: size.width,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if (checkIn == '--/--') {
+                              showToast('Check in Succes');
+                              return checkInTime();
+                            }
+                            setState(() {
+                              if (checkOut == '--/--') {
+                                showToast('Check Out Succes');
+                                return checkOutTime();
+                              }
+                            });
+                          },
+                          style:
+                              ElevatedButton.styleFrom(primary: kPrimaryColor),
+                          child: Text(
+                              checkIn == '--/--' ? 'Check In' : 'Checkout',
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white))),
+                    )
             ],
           ),
         ),
