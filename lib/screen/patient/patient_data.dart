@@ -39,11 +39,13 @@ class PatientDataScreen extends StatelessWidget {
             TextField(
                 decoration: InputDecoration(
                     hintText: 'Search',
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     suffixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)))),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 10),
               child: SizedBox(
                 width: size.width,
                 child: ElevatedButton(

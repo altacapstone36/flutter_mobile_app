@@ -23,7 +23,7 @@ class ItemCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: size.height * 0.19,
+        //height: size.height * 0.19,
         width: size.height * 0.19,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -79,6 +79,9 @@ class ItemCard extends StatelessWidget {
               style: const TextStyle(
                   fontWeight: FontWeight.w400, color: kSecondaryColor),
             ),
+            const SizedBox(
+              height: 5,
+            )
           ],
         ),
       ),
