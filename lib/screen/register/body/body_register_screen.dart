@@ -85,20 +85,20 @@ class BodyRegisterScreen extends StatelessWidget {
                             width: 300.0,
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.symmetric(horizontal: 50.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              color: kSecondaryColor,
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: kDarkColor,
-                                  offset: Offset(10, 15),
-                                  blurRadius: 30,
-                                ),
-                              ]),
-                        ),
+                        // Container(
+                        //   alignment: Alignment.centerLeft,
+                        //   margin: const EdgeInsets.symmetric(horizontal: 50.0),
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5.0),
+                        //       color: kSecondaryColor,
+                        //       boxShadow: const [
+                        //         BoxShadow(
+                        //           color: kDarkColor,
+                        //           offset: Offset(10, 15),
+                        //           blurRadius: 30,
+                        //         ),
+                        //       ]),
+                        // ),
                         Column(children: <Widget>[
                           Container(
                             padding:
@@ -362,8 +362,7 @@ class BodyRegisterScreen extends StatelessWidget {
                   if (_currentPage == _numPages - 1) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => BodyRegisterScreen()),
+                      MaterialPageRoute(builder: (context) => SignIn()),
                     );
                   }
                   _pageController.nextPage(
@@ -387,9 +386,9 @@ class BodyRegisterScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => SignIn()))
                 },
                 child: const Text(
-                  "Don Have an Account yet? Sign In",
+                  "Already Have an account? Sign In",
                   style: TextStyle(
-                    fontSize: 10.0,
+                    fontSize: 12.0,
                     fontWeight: FontWeight.bold,
                     color: kDarkColor,
                   ),
