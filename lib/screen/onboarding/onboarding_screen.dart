@@ -3,7 +3,6 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hospital_management/constants.dart';
-import 'package:hospital_management/screen/home/home_screen.dart';
 import 'package:hospital_management/screen/signin/sign_in_screen.dart';
 
 import 'content/content.dart';
@@ -36,8 +35,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: FlatButton(
                   onPressed: () {
                     if (_currentPage == _numPages - 3) {
-                     Navigator.of(
-                        context,).pushNamed('signin');                     
+                      Navigator.of(
+                        context,
+                      ).pushNamed('signin');
                     }
                     _pageController.nextPage(
                       duration: Duration(microseconds: 500),
@@ -190,7 +190,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   onPressed: () {
                     if (_currentPage == _numPages - 1) {
                       Navigator.of(
-                        context,).pushNamed('signin');
+                        context,
+                      ).pushNamed('signin');
                     }
                     _pageController.nextPage(
                       duration: Duration(microseconds: 500),
