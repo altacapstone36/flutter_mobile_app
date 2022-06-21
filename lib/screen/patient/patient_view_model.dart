@@ -14,7 +14,13 @@ class PatientViewModel with ChangeNotifier {
         nama: 'Abi',
         jKel: 'Laki - laki',
         darah: 'O',
-        medicRecord: []),
+        medicRecord: [
+          MedicRecord(
+              id: 1,
+              date: '01/06/2022',
+              keluhan: 'Lapar',
+              diagnosa: 'Kurang makan')
+        ]),
     PatientModel(
         waktu: '08:20',
         antri: 2,
@@ -23,7 +29,13 @@ class PatientViewModel with ChangeNotifier {
         nama: 'Aci',
         jKel: 'Laki - laki',
         darah: 'O',
-        medicRecord: []),
+        medicRecord: [
+          MedicRecord(
+              id: 1,
+              date: '01/06/2022',
+              keluhan: 'Lapar',
+              diagnosa: 'Kurang makan')
+        ]),
     PatientModel(
         waktu: '08:40',
         antri: 3,
