@@ -45,6 +45,8 @@ class SignIn extends StatelessWidget {
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: "Email",
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 12),
                       labelStyle: const TextStyle(
                         color: kDarkColor,
                       ),
@@ -61,6 +63,8 @@ class SignIn extends StatelessWidget {
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: "password",
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 12),
                       labelStyle: const TextStyle(
                         color: kDarkColor,
                       ),
