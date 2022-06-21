@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management/screen/home/home_screen.dart';
+import 'package:hospital_management/screen/signin/sign_in_screen.dart';
+import 'package:hospital_management/screen/onboarding/onboarding_screen.dart';
+
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
+ 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +18,10 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Nunito',
         primarySwatch: Colors.purple,
       ),
-      home: const HomeScreen(),
+      home: OnboardingScreen(),
+      routes: {
+        'signin':(context) => SignIn(),
+      },
     );
   }
 }
