@@ -13,7 +13,7 @@ class OtherMenu extends StatelessWidget {
     const Color bgColor = Color(0xFFFDFBFB);
     const Color fontColor = Color(0xFF5B5B5B);
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Card(
           color: bgColor,
           child: ListTile(
