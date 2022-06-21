@@ -5,9 +5,16 @@ import 'package:intl/intl.dart';
 
 import '../../constants.dart';
 
-class ScheduleScreen extends StatelessWidget {
+class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ScheduleScreen> createState() => _ScheduleScreenState();
+}
+
+String date = DateFormat('EEE, dd/mm/yyyy').format(DateTime.now());
+
+class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +42,30 @@ class ScheduleScreen extends StatelessWidget {
             Card(
               child: ListTile(
                 leading: const Icon(Icons.calendar_today_outlined),
-                title:
-                    Text(DateFormat('EEE, dd/mm/yyyy').format(DateTime.now())),
+                title: TextButton(
+                    onPressed: () async {
+                      DateTime? datePicked = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2050));
+                      if (datePicked != null) {
+                        String dateFormat = DateFormat('EEE, dd/mm/yyyy')
+                            .format(DateTime.now());
+                        setState(() {
+                          date = dateFormat;
+                        });
+                        print(date);
+                      }
+                    },
+                    child: Text(
+                      date,
+                      style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400),
+                    )),
+                //Text(DateFormat('EEE, dd/mm/yyyy').format(DateTime.now())),
                 trailing: Wrap(
                   spacing: 5,
                   children: [
