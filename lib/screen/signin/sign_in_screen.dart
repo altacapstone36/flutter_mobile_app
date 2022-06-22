@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hospital_management/constants.dart';
 import 'package:hospital_management/screen/home/home_screen.dart';
-import 'package:hospital_management/screen/register/register%20screen.dart';
+
+import '../register/register.dart';
+
 
 class SignIn extends StatelessWidget {
   @override
@@ -112,7 +114,7 @@ class SignIn extends StatelessWidget {
               child: GestureDetector(
                 onTap: () => {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()))
+                      MaterialPageRoute(builder: (context) => const RegisterScreen()))
                 },
                 child: const Text(
                   "Don Have an Account yet? Sign Up",
