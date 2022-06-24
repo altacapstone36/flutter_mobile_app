@@ -110,6 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget form1(Size size) {
     return Form(
       key: _formKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +129,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             controller: _name,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Nama tidak boleh kosong';
+                return 'Please enter your name';
+              }
+              if (value.length < 3) {
+                return 'Name cannot be less than 3';
               }
               return null;
             },
@@ -163,7 +167,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             controller: _email,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'email tidak boleh kosong';
+                return 'Please enter your email address';
+              }
+              if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                return 'Please enter a valid email address';
               }
               return null;
             },
@@ -199,8 +206,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             controller: _pass,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Password tidak boleh kosong';
+                return 'This field is required';
               }
+              if (value.length < 8) {
+                return 'Password must be at least 8 characters in length';
+              }
+              // Return null if the entered password is valid
               return null;
             },
             decoration: InputDecoration(
@@ -367,8 +378,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
           width: size.width,
           child: ElevatedButton(
               onPressed: () {
+                print('name :' + _name.value.text);
+                print('email :' + _email.value.text);
+                print('pass :' + _pass.value.text);
+                print('gender :' + selectedGender);
+                print('role :' + selectedRole);
+                print('facility :' + selectedFacility);
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => SignIn()));
+                    context, MaterialPageRoute(builder: (_) => const SignIn()));
               },
               style: ElevatedButton.styleFrom(primary: kPrimaryColor),
               child: const Text('Sign Up')),
