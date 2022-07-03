@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/components/loading_toast.dart';
 import 'package:hospital_management/screen/attendance/attendance_screen.dart';
+import 'package:hospital_management/screen/home/home_view_mode.dart';
 import 'package:hospital_management/screen/outpatient/outpatient_screen.dart';
 import 'package:hospital_management/screen/patient/patient_data.dart';
 import 'package:hospital_management/screen/report/report_screen.dart';
 import 'package:hospital_management/screen/schedule/schedule_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../components/menu_card.dart';
 
@@ -26,17 +30,10 @@ class Menu extends StatelessWidget {
           MenuCard(
               size: size,
               onTap: () {
-                Navigator.of(context).push(PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                  return const PatientDataScreen();
-                }, transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                  final tween = Tween(begin: 0.0, end: 2.0);
-                  return FadeTransition(
-                    opacity: animation.drive(tween),
-                    child: child,
-                  );
-                }));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PatientDataScreen()));
               },
               image: 'assets/icons/patientData.svg',
               title: 'Patient Data'),
@@ -94,23 +91,31 @@ class Menu extends StatelessWidget {
           MenuCard(
               size: size,
               onTap: () {
-                Navigator.of(context).push(PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                  return const OutpatientScreen();
-                }, transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                  final tween = Tween(begin: 0.0, end: 2.0);
-                  return FadeTransition(
-                    opacity: animation.drive(tween),
-                    child: child,
-                  );
-                }));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const OutpatientScreen()));
               },
               image: 'assets/icons/outpatienthHome.svg',
               title: 'Outpatient'),
           MenuCard(
               size: size,
-              onTap: () {},
+              onTap: () async {
+                var viewModel =
+                    Provider.of<HomeViewModel>(context, listen: false);
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return const LoadingToast(message: 'Logging Out...');
+                    });
+                await viewModel.logOut();
+                Navigator.pop(context);
+                if (viewModel.message != null || viewModel.message != '') {
+                  Fluttertoast.showToast(msg: viewModel.message!.toString());
+                  Navigator.pushReplacementNamed(context, '/signin');
+                }
+              },
               image: 'assets/icons/logOut.svg',
               title: 'Log Out'),
         ],

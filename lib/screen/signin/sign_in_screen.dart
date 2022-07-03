@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management/constants.dart';
 import 'package:hospital_management/screen/forgot_pass/forgot_pass.dart';
 import 'package:hospital_management/screen/home/home_screen.dart';
+import 'package:hospital_management/screen/signin/sign_in_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../register/register.dart';
+import '../../components/loading_toast.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -16,6 +21,31 @@ class _SignInState extends State<SignIn> {
   final _email = TextEditingController();
   final _pass = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _showPassword = false;
+  late SharedPreferences prefs;
+  late bool isLogin;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLogin();
+  }
+
+  void checkLogin() async {
+    prefs = await SharedPreferences.getInstance();
+    isLogin = prefs.getBool('isLogin') ?? false;
+
+    if (isLogin == true) {
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _email.dispose();
+    _pass.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +89,8 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      // keyboardType: TextInputType.,
+                      textInputAction: TextInputAction.next,
                       controller: _email,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -87,7 +119,10 @@ class _SignInState extends State<SignIn> {
                       height: 10,
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.visiblePassword,
                       controller: _pass,
+                      obscureText: !_showPassword,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
@@ -99,6 +134,19 @@ class _SignInState extends State<SignIn> {
                         return null;
                       },
                       decoration: InputDecoration(
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _showPassword = !_showPassword;
+                            });
+                          },
+                          child: Icon(
+                            _showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                        ),
                         labelText: "password",
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 8, horizontal: 12),
@@ -116,12 +164,46 @@ class _SignInState extends State<SignIn> {
                     SizedBox(
                       width: size.width,
                       child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            var viewModel = Provider.of<SignInViewModel>(
+                                context,
+                                listen: false);
                             if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const HomeScreen()));
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (_) {
+                                    return const LoadingToast(
+                                      message: 'Please Wait...',
+                                    );
+                                  });
+
+                              await viewModel.signIn(
+                                  email: _email.value.text.toString(),
+                                  pass: _pass.value.text.toString());
+                              Navigator.pop(context);
+
+                              if (viewModel.eror == null ||
+                                  viewModel.eror == '') {
+                                Fluttertoast.showToast(
+                                    backgroundColor: Colors.white,
+                                    textColor: kPrimaryColor,
+                                    msg: 'User Log In',
+                                    gravity: ToastGravity.BOTTOM);
+
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, '/home', (route) => false);
+                              } else {
+                                Fluttertoast.showToast(
+                                    backgroundColor: Colors.white,
+                                    textColor: kPrimaryColor,
+                                    msg: viewModel.eror!.toString(),
+                                    gravity: ToastGravity.CENTER);
+                                setState(() {
+                                  String? data;
+                                  viewModel.eror = data;
+                                });
+                              }
                             }
                           },
                           style:
@@ -152,26 +234,22 @@ class _SignInState extends State<SignIn> {
             const SizedBox(
               height: 5,
             ),
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterScreen()))
-                },
-                child: const Text(
-                  "Dont Have an Account yet? Sign Up",
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold,
-                    color: kDarkColor,
-                  ),
-                ),
-              ),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text("Don't Have an Account yet?"),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: kPrimaryColor),
+                    ))
+              ],
+            )
           ],
         ),
       ),

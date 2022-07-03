@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hospital_management/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'content/content.dart';
 
 class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({Key? key}) : super(key: key);
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
@@ -17,6 +19,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -29,18 +32,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 alignment: Alignment.centerLeft,
                 height: 80.0,
                 child: FlatButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_currentPage == _numPages - 3) {
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('showLogin', true);
                       Navigator.of(
                         context,
-                      ).pushNamed('signin');
+                      ).pushReplacementNamed('/signin');
                     }
                     _pageController.nextPage(
-                      duration: Duration(microseconds: 500),
+                      duration: const Duration(microseconds: 500),
                       curve: Curves.ease,
                     );
                   },
@@ -75,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 duration: kThemeAnimationDuration,
                 height: 400.0,
                 child: PageView(
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   controller: _pageController,
                   onPageChanged: (int page) {
                     setState(() {
@@ -88,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Spacer(),
+                          const Spacer(),
                           Center(
                             child: SvgPicture.asset(
                               'assets/images/splash1.svg',
@@ -96,13 +101,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               width: 300.0,
                             ),
                           ),
-                          Spacer(),
-                          SizedBox(height: 15.0),
+                          const Spacer(),
+                          const SizedBox(height: 15.0),
                           Text(
                             'Process Outpatient Easly',
                             style: kTitle,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15.0,
                           ),
                           Text(
@@ -124,12 +129,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               style: kTitle,
                             ),
                           ),
-                          SizedBox(height: 15.0),
+                          const SizedBox(height: 15.0),
                           Text(
                             'Procees your work easly with the Report function',
                             style: kSubtitle,
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Center(
                             child: SvgPicture.asset(
                               'assets/images/splash2.svg',
@@ -145,7 +150,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Spacer(),
+                          const Spacer(),
                           Center(
                             child: SvgPicture.asset(
                               'assets/images/splash3.svg',
@@ -153,12 +158,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               width: 300.0,
                             ),
                           ),
-                          SizedBox(height: 15.0),
+                          const SizedBox(height: 15.0),
                           Text(
                             'Patient Data Search Feature',
                             style: kTitle,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15.0,
                           ),
                           Text(
@@ -171,7 +176,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -181,23 +186,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Container(
                 height: 40.0,
-                margin: EdgeInsets.all(20.0),
+                margin: const EdgeInsets.all(20.0),
                 width: 150.0,
                 child: FlatButton(
                   child: Text(
                     _currentPage == _numPages - 1 ? 'Get Started' : 'Next',
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_currentPage == _numPages - 1) {
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('showLogin', true);
                       Navigator.of(
                         context,
-                      ).pushNamed('signin');
+                      ).pushReplacementNamed('/signin');
                     }
                     _pageController.nextPage(
-                      duration: Duration(microseconds: 500),
+                      duration: const Duration(microseconds: 500),
                       curve: Curves.ease,
                     );
                   },
@@ -220,7 +227,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       duration: kThemeAnimationDuration,
       height: 10.0,
       width: _currentPage == index ? 10 : 10,
-      margin: EdgeInsets.only(right: 15.0),
+      margin: const EdgeInsets.only(right: 15.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: _currentPage == index ? kPrimaryColor : kDarkColor,
