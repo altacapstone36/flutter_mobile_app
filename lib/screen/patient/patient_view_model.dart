@@ -1,110 +1,22 @@
-import 'package:flutter/cupertino.dart';
-import 'package:hospital_management/enums.dart';
-import 'package:hospital_management/model/patient/patient_model.dart';
+import 'dart:convert';
 
-import '../../model/patient/medic_record_model.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:hospital_management/api/patient_api.dart';
+import 'package:hospital_management/enums.dart';
+import 'package:hospital_management/model/patient/patient_models.dart';
+import 'package:hospital_management/model/user/model_user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../model/error/error_model.dart';
 
 class PatientViewModel with ChangeNotifier {
-  final List<PatientModel> patients = [
-    PatientModel(
-        waktu: '08:00',
-        antri: 1,
-        kode: 'RM0001',
-        nik: 1231231,
-        nama: 'Abi',
-        jKel: 'Laki - laki',
-        darah: 'O',
-        medicRecord: [
-          MedicRecord(
-              id: 1,
-              date: '01/06/2022',
-              keluhan: 'Lapar',
-              diagnosa: 'Kurang makan')
-        ]),
-    PatientModel(
-        waktu: '08:20',
-        antri: 2,
-        kode: 'RM0002',
-        nik: 1231231,
-        nama: 'Aci',
-        jKel: 'Laki - laki',
-        darah: 'O',
-        medicRecord: [
-          MedicRecord(
-              id: 1,
-              date: '01/06/2022',
-              keluhan: 'Lapar',
-              diagnosa: 'Kurang makan')
-        ]),
-    PatientModel(
-        waktu: '08:40',
-        antri: 3,
-        kode: 'RM0003',
-        nik: 1231231,
-        nama: 'Adi',
-        jKel: 'Laki - laki',
-        darah: 'O',
-        medicRecord: [
-          MedicRecord(
-              id: 1,
-              date: '01/06/2022',
-              keluhan: 'Lapar',
-              diagnosa: 'Kurang makan'),
-          MedicRecord(
-              id: 2,
-              date: '01/06/2022',
-              keluhan: 'Lapar',
-              diagnosa: 'Kurang makan'),
-        ]),
-    PatientModel(
-        waktu: '09:00',
-        antri: 4,
-        kode: 'RM0004',
-        nik: 1231231,
-        nama: 'Afi',
-        jKel: 'Perempuan',
-        darah: 'O',
-        medicRecord: [
-          MedicRecord(
-              id: 1,
-              date: '01/06/2022',
-              keluhan: 'Lapar',
-              diagnosa: 'Kurang makan'),
-          MedicRecord(
-              id: 2,
-              date: '01/06/2022',
-              keluhan: 'Lapar',
-              diagnosa: 'Kurang makan'),
-        ]),
-    PatientModel(
-        waktu: '09:20',
-        antri: 5,
-        kode: 'RM0005',
-        nik: 1231231,
-        nama: 'Agi',
-        jKel: 'Laki - laki',
-        darah: 'O',
-        medicRecord: [
-          MedicRecord(id: 1, date: '01/06/2022', keluhan: 'Lapar', diagnosa: '')
-        ]),
-    PatientModel(
-        waktu: '09:40',
-        antri: 6,
-        kode: 'RM0006',
-        nik: 1231231,
-        nama: 'Aji',
-        jKel: 'Laki - laki',
-        darah: 'O',
-        medicRecord: [
-          MedicRecord(
-              id: 1, date: '01/06/2022', keluhan: 'Lapar', diagnosa: 'Makan'),
-        ]),
-  ];
-  // List<PatientModel> get patients => _patients;
-  final List<MedicRecord> _medic = [];
-  List<MedicRecord> get medic => _medic;
+  List<PatientData> _patients = [];
+  List<PatientData> get patients => _patients;
 
-  //state
+  List<PatientData> patientByName = [];
+  String? eror;
+
   DataState _state = DataState.loading;
   DataState get state => _state;
 
@@ -113,8 +25,47 @@ class PatientViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void addMedicRecord(MedicRecord medic, int id) {
-    patients[id].medicRecord.add(medic);
-    notifyListeners();
+  Future<void> getPatient() async {
+    changeState(DataState.loading);
+    Jwt? tokenModel;
+    final pref = await SharedPreferences.getInstance();
+    var tokenString = pref.getString('token');
+    if (tokenString != null) {
+      var tokenList = jsonDecode(tokenString);
+      tokenModel = Jwt.fromJson(tokenList);
+
+      try {
+        changeState(DataState.loading);
+        var response = await PatientApi().patient(tokenModel.accessToken!);
+        if (response.statusCode == 200) {
+          PatientModel responseData = PatientModel.fromJson(response.data);
+          List<PatientData>? patientList = responseData.data;
+          _patients = patientList!;
+          debugPrint(patientList[1].birthdate.toString());
+          notifyListeners();
+          changeState(DataState.succes);
+        }
+      } on DioError catch (e) {
+        changeState(DataState.error);
+        if (e.response!.statusCode != 503) {
+          ErrorModel error = ErrorModel.fromJson(e.response!.data);
+          eror = error.error;
+          debugPrint(eror);
+        } else {
+          eror = e.response!.statusCode!.toString() + ' Service Unavailable';
+          debugPrint(e.message.toString());
+        }
+        notifyListeners();
+      }
+    }
+  }
+
+  void searchPatient(String query) {
+    if (query.isEmpty || query == '') {
+      return;
+    }
+    query.toLowerCase();
+    List result = [];
+    // patients.where((element) => false)
   }
 }
