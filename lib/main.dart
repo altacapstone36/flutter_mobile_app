@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management/screen/home/home_screen.dart';
-import 'package:hospital_management/screen/home/home_view_mode.dart';
+import 'package:hospital_management/screen/detail_patient/detail_patient_view_model.dart';
 import 'package:hospital_management/screen/outpatient/outpatient_view_model.dart';
+import 'package:hospital_management/screen/home/home_view_mode.dart';
 import 'package:hospital_management/screen/register/register.dart';
 
 import 'package:hospital_management/screen/signin/sign_in_screen.dart';
@@ -9,8 +10,8 @@ import 'package:hospital_management/screen/onboarding/onboarding_screen.dart';
 import 'package:hospital_management/screen/patient/patient_view_model.dart';
 import 'package:hospital_management/screen/report/report_view_model.dart';
 import 'package:hospital_management/screen/signin/sign_in_view_model.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,13 +19,14 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
   final showLogin = prefs.getBool('showLogin') ?? false;
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => DetailPatientViewModel()),
     ChangeNotifierProvider(create: (_) => PatientViewModel()),
     ChangeNotifierProvider(create: (_) => ReportViewModel()),
     ChangeNotifierProvider(create: (_) => SignInViewModel()),
     ChangeNotifierProvider(create: (_) => HomeViewModel()),
     ChangeNotifierProvider(
       create: (_) => OutpatientViewModel(),
-    )
+    ),
   ], child: MyApp(showLogin: showLogin)));
 }
 
