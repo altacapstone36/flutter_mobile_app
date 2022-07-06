@@ -10,6 +10,7 @@ import 'package:hospital_management/screen/schedule/schedule_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../components/menu_card.dart';
+import '../../../constants.dart';
 
 class Menu extends StatelessWidget {
   const Menu({
@@ -116,7 +117,10 @@ class Menu extends StatelessWidget {
                 await viewModel.logOut();
                 Navigator.pop(context);
                 if (viewModel.message != null || viewModel.message != '') {
-                  Fluttertoast.showToast(msg: viewModel.message!.toString());
+                  Fluttertoast.showToast(
+                      msg: viewModel.message!.toString(),
+                      backgroundColor: Colors.white,
+                      textColor: kPrimaryColor);
                   Navigator.pushReplacementNamed(context, '/signin');
                 }
               },

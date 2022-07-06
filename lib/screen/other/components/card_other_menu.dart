@@ -21,12 +21,9 @@ class OtherMenu extends StatelessWidget {
               title,
               style: const TextStyle(color: fontColor),
             ),
-            trailing: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                icon,
-                color: fontColor,
-              ),
+            trailing: Icon(
+              icon,
+              color: fontColor,
             ),
           )),
     );
