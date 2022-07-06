@@ -58,6 +58,9 @@ class ItemCard extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 5),
               child: Text(
                 nama,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                softWrap: false,
                 style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -66,16 +69,25 @@ class ItemCard extends StatelessWidget {
             ),
             Text(
               'Antrian: $antrian',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
               style: const TextStyle(
                   fontWeight: FontWeight.w400, color: kSecondaryColor),
             ),
             Text(
               kode,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
               style: const TextStyle(
                   fontWeight: FontWeight.w400, color: kSecondaryColor),
             ),
             Text(
               keluhan,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
               style: const TextStyle(
                   fontWeight: FontWeight.w400, color: kSecondaryColor),
             ),
