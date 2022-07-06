@@ -10,7 +10,8 @@ import 'package:hospital_management/screen/patient/patient_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PatientDataScreen extends StatefulWidget {
-  const PatientDataScreen({Key? key}) : super(key: key);
+  const PatientDataScreen({Key? key, required this.showBack}) : super(key: key);
+  final bool showBack;
 
   @override
   State<PatientDataScreen> createState() => _PatientDataScreenState();
@@ -37,6 +38,13 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
+        leading: widget.showBack
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back_ios, color: kPrimaryColor))
+            : null,
         title: const Text(
           'Patient Data',
           style: TextStyle(fontWeight: FontWeight.w700, color: kPrimaryColor),

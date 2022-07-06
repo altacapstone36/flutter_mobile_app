@@ -56,7 +56,9 @@ class BottomNavBar extends StatelessWidget {
                         PageRouteBuilder(
                             pageBuilder:
                                 ((context, animation, secondaryAnimation) =>
-                                    const PatientDataScreen()),
+                                    const PatientDataScreen(
+                                      showBack: false,
+                                    )),
                             transitionDuration: Duration.zero,
                             reverseTransitionDuration: Duration.zero)
                         // MaterialPageRoute(
@@ -76,7 +78,9 @@ class BottomNavBar extends StatelessWidget {
                         PageRouteBuilder(
                             pageBuilder:
                                 ((context, animation, secondaryAnimation) =>
-                                    const OutpatientScreen()),
+                                    const OutpatientScreen(
+                                      showBack: false,
+                                    )),
                             transitionDuration: Duration.zero,
                             reverseTransitionDuration: Duration.zero));
                   },

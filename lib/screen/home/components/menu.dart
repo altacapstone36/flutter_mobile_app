@@ -33,7 +33,9 @@ class Menu extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const PatientDataScreen()));
+                        builder: (context) => const PatientDataScreen(
+                              showBack: true,
+                            )));
               },
               image: 'assets/icons/patientData.svg',
               title: 'Patient Data'),
@@ -94,7 +96,9 @@ class Menu extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const OutpatientScreen()));
+                        builder: (context) => const OutpatientScreen(
+                              showBack: true,
+                            )));
               },
               image: 'assets/icons/outpatienthHome.svg',
               title: 'Outpatient'),
