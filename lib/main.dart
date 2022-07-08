@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management/screen/detail_outpatient/detail_outpatient_view_model.dart';
+import 'package:hospital_management/screen/forgot_pass/change_password_view_model.dart';
 import 'package:hospital_management/screen/home/home_screen.dart';
 import 'package:hospital_management/screen/detail_patient/detail_patient_view_model.dart';
 import 'package:hospital_management/screen/outpatient/outpatient_view_model.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
   final isLogin = prefs.getBool('isLogin') ?? false;
   runApp(MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
         ChangeNotifierProvider(create: (_) => DetailOutpatientViewModel()),
         ChangeNotifierProvider(create: (_) => DetailPatientViewModel()),
         ChangeNotifierProvider(create: (_) => PatientViewModel()),

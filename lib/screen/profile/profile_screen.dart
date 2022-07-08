@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/screen/forgot_pass/change_password_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/loading_toast.dart';
@@ -98,7 +99,12 @@ class ProfileScreen extends StatelessWidget {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ChangePassword()));
+                },
                 style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 8),
