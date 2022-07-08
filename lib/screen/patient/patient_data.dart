@@ -71,11 +71,22 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
               ),
               TextField(
                   controller: _query,
+                  textInputAction: TextInputAction.done,
+                  // onChanged: (value) {},
                   decoration: InputDecoration(
                       hintText: 'Search',
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 12),
-                      suffixIcon: const Icon(Icons.search),
+                      suffixIcon: _query.text.isEmpty || _query.text == ''
+                          ? null
+                          : IconButton(
+                              onPressed: () {
+                                _query.clear();
+                                Provider.of<PatientViewModel>(context,
+                                        listen: false)
+                                    .getPatient();
+                              },
+                              icon: const Icon(Icons.clear)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5)))),
               Padding(
@@ -83,9 +94,12 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                 child: SizedBox(
                   width: size.width,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        viewModel.searchPatient(_query.text);
+                      },
                       style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                      child: const Text('SEARCH')),
+                      child: const Text('Search')),
                 ),
               ),
               const Padding(
@@ -108,7 +122,9 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                   );
                 }
                 return ListView.builder(
-                    itemCount: viewModel.patients.length,
+                    itemCount: _query.text != ''
+                        ? viewModel.patientByName.length
+                        : viewModel.patients.length,
                     itemBuilder: (context, index) {
                       return FadeAnimation(
                         child: GestureDetector(
@@ -117,12 +133,21 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DetailPatientScreen(
-                                        id: viewModel.patients[index].id!)));
+                                        id: _query.text != ''
+                                            ? viewModel.patientByName[index].id!
+                                            : viewModel.patients[index].id!)));
                           },
                           child: PatientCard(
-                              id: viewModel.patients[index].id!.toString(),
-                              nama: viewModel.patients[index].fullName!,
-                              kode: viewModel.patients[index].code!),
+                              id: _query.text != ''
+                                  ? viewModel.patientByName[index].id!
+                                      .toString()
+                                  : viewModel.patients[index].id!.toString(),
+                              nama: _query.text != ''
+                                  ? viewModel.patientByName[index].fullName!
+                                  : viewModel.patients[index].fullName!,
+                              kode: _query.text != ''
+                                  ? viewModel.patientByName[index].code!
+                                  : viewModel.patients[index].code!),
                         ),
                       );
                     });
