@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/components/loading_toast.dart';
+import 'package:hospital_management/enums.dart';
+import 'package:hospital_management/model/outpatient/process_model.dart';
 import 'package:hospital_management/screen/detail_outpatient/component/form_nurse.dart';
+import 'package:hospital_management/screen/patient/components/shimmer_card_patient.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+import '../../outpatient/outpatient_view_model.dart';
 import '../../patient/components/card_patient.dart';
+import '../detail_outpatient_view_model.dart';
 
 class FormDoctor extends StatefulWidget {
-  const FormDoctor({Key? key}) : super(key: key);
+  const FormDoctor({Key? key, required this.idPatient}) : super(key: key);
+  final int idPatient;
 
   @override
   State<FormDoctor> createState() => _FormDoctorState();
@@ -16,10 +25,22 @@ class _FormDoctorState extends State<FormDoctor> {
   var obat = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isSelected = false;
+  bool selectItem = false;
+  var code = '';
+
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      Provider.of<DetailOutpatientViewModel>(context, listen: false).getNurse();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var viewModel = Provider.of<DetailOutpatientViewModel>(context);
     final Size size = MediaQuery.of(context).size;
+
     return Form(
       key: _formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -52,41 +73,125 @@ class _FormDoctorState extends State<FormDoctor> {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 10),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      Expanded(
-                                        child: ListView(children: [
-                                          PatientCard(
-                                              id: 1.toString(),
-                                              nama: 'Priscilla',
-                                              kode: 'Kode Suster : NR001'),
-                                          PatientCard(
-                                              id: 1.toString(),
-                                              nama: 'Priscilla',
-                                              kode: 'Kode Suster : NR001'),
-                                        ]),
-                                      ),
-                                      SizedBox(
-                                        width: size.width,
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                isSelected = true;
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                primary: kPrimaryColor),
-                                            child: const Text('Assign Nurse')),
-                                      )
-                                    ],
+                                  child: StatefulBuilder(
+                                    builder: (context, setStates) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Consumer<DetailOutpatientViewModel>(
+                                              builder: (context, state, child) {
+                                            if (state.stateType ==
+                                                DataState.error) {
+                                              return Center(
+                                                child: Text(viewModel.message),
+                                              );
+                                            } else if (state.stateType ==
+                                                DataState.loading) {
+                                              return const Expanded(
+                                                child: CardPatientShimmer(),
+                                              );
+                                            } else {
+                                              return Expanded(
+                                                  child: ListView.builder(
+                                                itemCount:
+                                                    viewModel.nurse.length,
+                                                itemBuilder: (context, index) {
+                                                  int id = index + 1;
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      setStates(() {
+                                                        code = viewModel
+                                                            .nurse[index].code!;
+                                                        debugPrint(code);
+                                                        selectItem =
+                                                            !selectItem;
+                                                      });
+                                                    },
+                                                    child: Card(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          side: BorderSide(
+                                                              color: (selectItem ==
+                                                                      true)
+                                                                  ? kPrimaryColor
+                                                                  : kSecondaryColor,
+                                                              width: 2)),
+                                                      color: kSecondaryColor,
+                                                      child: ListTile(
+                                                        leading: CircleAvatar(
+                                                            backgroundColor:
+                                                                kSecondaryColor,
+                                                            child: Text(
+                                                              id.toString(),
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .black),
+                                                            )),
+                                                        title: Text(viewModel
+                                                            .nurse[index]
+                                                            .fullName!),
+                                                        subtitle: Text(
+                                                            'Kode suster : ${viewModel.nurse[index].code!}'),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ));
+                                            }
+                                          }),
+                                          SizedBox(
+                                            width: size.width,
+                                            child: ElevatedButton(
+                                                onPressed: selectItem
+                                                    ? () async {
+                                                        setState(() {
+                                                          isSelected = true;
+                                                        });
+                                                        showDialog(
+                                                            barrierDismissible:
+                                                                false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return const LoadingToast(
+                                                                  message:
+                                                                      'Processing Data...');
+                                                            });
+                                                        var nurseData =
+                                                            AssignNurseModel(
+                                                                nurseCode:
+                                                                    code);
+
+                                                        await viewModel
+                                                            .assignNurse(
+                                                                nurseData,
+                                                                widget
+                                                                    .idPatient);
+                                                        Navigator.pop(context);
+                                                        Fluttertoast.showToast(
+                                                            msg: viewModel
+                                                                .message,
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            textColor:
+                                                                kPrimaryColor);
+                                                      }
+                                                    : null,
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: kPrimaryColor),
+                                                child:
+                                                    const Text('Assign Nurse')),
+                                          )
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               );
@@ -148,25 +253,28 @@ class _FormDoctorState extends State<FormDoctor> {
             child: SizedBox(
               width: size.width,
               child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // String date =
-                      //     DateFormat('dd/mm/yyy').format(DateTime.now());
-                      // String diagnosis = diagnosa.value.text;
-                      // patientViewModel.addMedicRecord(
-                      //     MedicRecord(
-                      //         id: widget.idRecord,
-                      //         date: date,
-                      //         keluhan: widget.keluhan,
-                      //         diagnosa: diagnosis),
-                      //     widget.idPasien);
-                      // reportViewModel
-                      //     .addReport(ReportModel(kode: widget.kode));
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   const SnackBar(content: Text('Succes')),
-                      // );
-                      // print('diagnosis = ' + diagnosis);
-                      // Navigator.pop(context);
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return const LoadingToast(
+                                message: 'Processing Data...');
+                          });
+
+                      var data = ProcessDoctorModel(
+                          diagnose: diagnosa.text.toString(),
+                          prescription: obat.text.toString());
+                      await viewModel.processDoctor(
+                          data: data, id: widget.idPatient);
+                      Navigator.pop(context);
+                      Fluttertoast.showToast(
+                          msg: viewModel.message,
+                          gravity: ToastGravity.CENTER,
+                          backgroundColor: Colors.white,
+                          textColor: kPrimaryColor);
+                      Navigator.pop(context);
                     }
                   },
                   style: ElevatedButton.styleFrom(primary: kPrimaryColor),

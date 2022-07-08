@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/model/outpatient/process_model.dart';
+import 'package:hospital_management/screen/outpatient/outpatient_view_model.dart';
+import 'package:provider/provider.dart';
 
+import '../../../components/loading_toast.dart';
 import '../../../constants.dart';
+import '../detail_outpatient_view_model.dart';
 
 class FormNurse extends StatefulWidget {
-  const FormNurse({Key? key}) : super(key: key);
+  const FormNurse({Key? key, required this.idPatient}) : super(key: key);
+
+  final int idPatient;
 
   @override
   State<FormNurse> createState() => _FormNurseState();
@@ -19,6 +27,7 @@ class _FormNurseState extends State<FormNurse> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    var viewModel = Provider.of<DetailOutpatientViewModel>(context);
     return Form(
       key: _formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -127,8 +136,27 @@ class _FormNurseState extends State<FormNurse> {
             child: SizedBox(
               width: size.width,
               child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return const LoadingToast(
+                                message: 'Processing Data...');
+                          });
+                      var data = ProcessNurseModel(
+                          bloodTension: int.parse(_bloodTension.text),
+                          height: int.parse(_height.text),
+                          weight: int.parse(_weight.text),
+                          bodyTemp: int.parse(_bodyTemp.text));
+                      await viewModel.processNurse(
+                          data: data, id: widget.idPatient);
+                      Navigator.pop(context);
+                      Fluttertoast.showToast(
+                          msg: viewModel.message, gravity: ToastGravity.CENTER);
+                      Navigator.pop(context);
+                    }
                   },
                   style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                   child: const Text('COMPLETE')),
