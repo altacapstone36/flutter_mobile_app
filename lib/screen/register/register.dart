@@ -67,24 +67,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ]),
                       child: switchForm(size)),
                   const SizedBox(
-                    height: 15,
+                    height: 5,
                   ),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () => {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SignIn()))
-                      },
-                      child: const Text(
-                        "Already Have an Account? Sign In",
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                          //color: kDarkColor,
-                        ),
-                      ),
-                    ),
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text("Already Have Account?"),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/signin');
+                          },
+                          child: const Text(
+                            'Sign In',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: kPrimaryColor),
+                          ))
+                    ],
+                  )
                 ],
               ),
             ),
