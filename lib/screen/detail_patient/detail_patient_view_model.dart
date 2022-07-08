@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../enums.dart';
 import '../../model/error/error_model.dart';
-import '../../model/user/model_user.dart';
+import '../../model/user/model_user_login.dart';
 
 class DetailPatientViewModel with ChangeNotifier {
   PatientDataId patientDataId = PatientDataId();

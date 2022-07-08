@@ -28,17 +28,17 @@ class _SignInState extends State<SignIn> {
   @override
   void initState() {
     super.initState();
-    checkLogin();
+    // checkLogin();
   }
 
-  void checkLogin() async {
-    prefs = await SharedPreferences.getInstance();
-    isLogin = prefs.getBool('isLogin') ?? false;
+  // void checkLogin() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   isLogin = prefs.getBool('isLogin') ?? false;
 
-    if (isLogin == true) {
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-    }
-  }
+  //   if (isLogin == true) {
+  //     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+  //   }
+  // }
 
   @override
   void dispose() {

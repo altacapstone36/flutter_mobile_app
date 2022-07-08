@@ -6,7 +6,7 @@ import 'package:hospital_management/screen/outpatient/outpatient_view_model.dart
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
-import '../detail_outpatient/detail_outpatient.dart';
+import '../detail_outpatient/detail_outpatient_screen.dart';
 import 'components/itemShimmer.dart';
 
 class OutpatientScreen extends StatefulWidget {
@@ -92,7 +92,7 @@ class _OutpatientScreenState extends State<OutpatientScreen> {
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
                               return DetailOutpatient(
-                                idPasien: index,
+                                idPasien: viewModel.outpatients[index].id!,
                                 idRecord: id,
                                 waktu: viewModel.outpatients[index].session!
                                     .toString(),

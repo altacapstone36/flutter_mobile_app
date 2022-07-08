@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
-import '../../../model/user/model_user.dart';
+import '../../../model/user/model_user_login.dart';
 
 class Header extends StatefulWidget {
   const Header({
@@ -25,7 +25,7 @@ class Header extends StatefulWidget {
 class _HeaderState extends State<Header> {
   String? name;
   String? title;
-  Data userData = Data(
+  DataLogin userData = DataLogin(
       id: 0,
       code: '',
       email: '',
@@ -49,7 +49,7 @@ class _HeaderState extends State<Header> {
     setState(() {
       var data = prefs.getString('user');
       var dataDecode = jsonDecode(data!);
-      userData = Data.fromJson(dataDecode);
+      userData = DataLogin.fromJson(dataDecode);
     });
   }
 

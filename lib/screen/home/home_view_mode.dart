@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hospital_management/api/auth.dart';
-import 'package:hospital_management/model/user/model_user.dart';
+import 'package:hospital_management/model/user/model_user_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/error/error_model.dart';
 
 class HomeViewModel with ChangeNotifier {
   String? message;
-  Data dataUser = Data(
+  DataLogin dataUser = DataLogin(
       id: 0,
       code: '-',
       email: '-',
@@ -20,12 +20,12 @@ class HomeViewModel with ChangeNotifier {
       facility: '-');
 
   Future<void> getUser() async {
-    Data? userData;
+    DataLogin? userData;
     final userPref = await SharedPreferences.getInstance();
     var userString = userPref.getString('user');
 
     var userList = jsonDecode(userString!);
-    userData = Data.fromJson(userList);
+    userData = DataLogin.fromJson(userList);
     debugPrint(userData.email);
     debugPrint(userData.fullName);
     dataUser = userData;

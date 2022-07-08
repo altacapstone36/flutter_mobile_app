@@ -1,30 +1,34 @@
-class ModelUser {
-  ModelUser({
-      String? message, 
-      Data? data, 
-      Jwt? jwt,}){
+class ModelUserLogin {
+  ModelUserLogin({
+    String? message,
+    DataLogin? data,
+    Jwt? jwt,
+  }) {
     _message = message;
     _data = data;
     _jwt = jwt;
-}
+  }
 
-  ModelUser.fromJson(dynamic json) {
+  ModelUserLogin.fromJson(dynamic json) {
     _message = json['message'];
-    _data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    _data = json['data'] != null ? DataLogin.fromJson(json['data']) : null;
     _jwt = json['jwt'] != null ? Jwt.fromJson(json['jwt']) : null;
   }
   String? _message;
-  Data? _data;
+  DataLogin? _data;
   Jwt? _jwt;
-ModelUser copyWith({  String? message,
-  Data? data,
-  Jwt? jwt,
-}) => ModelUser(  message: message ?? _message,
-  data: data ?? _data,
-  jwt: jwt ?? _jwt,
-);
+  ModelUserLogin copyWith({
+    String? message,
+    DataLogin? data,
+    Jwt? jwt,
+  }) =>
+      ModelUserLogin(
+        message: message ?? _message,
+        data: data ?? _data,
+        jwt: jwt ?? _jwt,
+      );
   String? get message => _message;
-  Data? get data => _data;
+  DataLogin? get data => _data;
   Jwt? get jwt => _jwt;
 
   Map<String, dynamic> toJson() {
@@ -38,16 +42,17 @@ ModelUser copyWith({  String? message,
     }
     return map;
   }
-
 }
 
+//token
 class Jwt {
   Jwt({
-      String? accessToken, 
-      String? refreshToken,}){
+    String? accessToken,
+    String? refreshToken,
+  }) {
     _accessToken = accessToken;
     _refreshToken = refreshToken;
-}
+  }
 
   Jwt.fromJson(dynamic json) {
     _accessToken = json['access_token'];
@@ -55,11 +60,14 @@ class Jwt {
   }
   String? _accessToken;
   String? _refreshToken;
-Jwt copyWith({  String? accessToken,
-  String? refreshToken,
-}) => Jwt(  accessToken: accessToken ?? _accessToken,
-  refreshToken: refreshToken ?? _refreshToken,
-);
+  Jwt copyWith({
+    String? accessToken,
+    String? refreshToken,
+  }) =>
+      Jwt(
+        accessToken: accessToken ?? _accessToken,
+        refreshToken: refreshToken ?? _refreshToken,
+      );
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
 
@@ -69,19 +77,18 @@ Jwt copyWith({  String? accessToken,
     map['refresh_token'] = _refreshToken;
     return map;
   }
-
 }
 
-
-class Data {
-  Data({
-      int? id, 
-      String? code, 
-      String? email, 
-      String? fullName, 
-      String? gender, 
-      String? roles, 
-      String? facility,}){
+class DataLogin {
+  DataLogin({
+    int? id,
+    String? code,
+    String? email,
+    String? fullName,
+    String? gender,
+    String? roles,
+    String? facility,
+  }) {
     _id = id;
     _code = code;
     _email = email;
@@ -89,9 +96,9 @@ class Data {
     _gender = gender;
     _roles = roles;
     _facility = facility;
-}
+  }
 
-  Data.fromJson(dynamic json) {
+  DataLogin.fromJson(dynamic json) {
     _id = json['id'];
     _code = json['code'];
     _email = json['email'];
@@ -107,21 +114,25 @@ class Data {
   String? _gender;
   String? _roles;
   String? _facility;
-Data copyWith({  int? id,
-  String? code,
-  String? email,
-  String? fullName,
-  String? gender,
-  String? roles,
-  String? facility,
-}) => Data(  id: id ?? _id,
-  code: code ?? _code,
-  email: email ?? _email,
-  fullName: fullName ?? _fullName,
-  gender: gender ?? _gender,
-  roles: roles ?? _roles,
-  facility: facility ?? _facility,
-);
+
+  DataLogin copyWith({
+    int? id,
+    String? code,
+    String? email,
+    String? fullName,
+    String? gender,
+    String? roles,
+    String? facility,
+  }) =>
+      DataLogin(
+        id: id ?? _id,
+        code: code ?? _code,
+        email: email ?? _email,
+        fullName: fullName ?? _fullName,
+        gender: gender ?? _gender,
+        roles: roles ?? _roles,
+        facility: facility ?? _facility,
+      );
   int? get id => _id;
   String? get code => _code;
   String? get email => _email;
@@ -141,5 +152,4 @@ Data copyWith({  int? id,
     map['facility'] = _facility;
     return map;
   }
-
 }

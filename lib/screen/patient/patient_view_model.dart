@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hospital_management/api/patient_api.dart';
 import 'package:hospital_management/enums.dart';
 import 'package:hospital_management/model/patient/patient_models.dart';
-import 'package:hospital_management/model/user/model_user.dart';
+import 'package:hospital_management/model/user/model_user_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/error/error_model.dart';
@@ -61,11 +61,16 @@ class PatientViewModel with ChangeNotifier {
   }
 
   void searchPatient(String query) {
+    patientByName.clear();
     if (query.isEmpty || query == '') {
       return;
+    } else {
+      _patients.forEach((e) {
+        if (e.fullName!.toLowerCase().contains(query.toLowerCase())) {
+          patientByName.add(e);
+          notifyListeners();
+        }
+      });
     }
-    query.toLowerCase();
-    List result = [];
-    // patients.where((element) => false)
   }
 }

@@ -8,13 +8,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../enums.dart';
 import '../../model/error/error_model.dart';
-import '../../model/user/model_user.dart';
+import '../../model/user/model_user_login.dart';
 
 class OutpatientViewModel with ChangeNotifier {
   List<OutpatientData> _outpatients = [];
   List<OutpatientData> get outpatients => _outpatients;
 
   String? eror;
+  String? message;
 
   DataState _stateType = DataState.loading;
   DataState get stateType => _stateType;
@@ -59,7 +60,6 @@ class OutpatientViewModel with ChangeNotifier {
           debugPrint(e.message.toString());
         }
         notifyListeners();
-        //print('error');
       }
     }
   }

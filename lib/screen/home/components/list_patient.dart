@@ -8,7 +8,7 @@ import 'package:hospital_management/screen/outpatient/outpatient_view_model.dart
 import 'package:provider/provider.dart';
 
 import '../../../enums.dart';
-import '../../detail_outpatient/detail_outpatient.dart';
+import '../../detail_outpatient/detail_outpatient_screen.dart';
 
 class PatientList extends StatefulWidget {
   const PatientList({Key? key}) : super(key: key);

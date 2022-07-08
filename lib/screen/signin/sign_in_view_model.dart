@@ -4,13 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hospital_management/api/auth.dart';
 import 'package:hospital_management/model/error/error_model.dart';
-import 'package:hospital_management/model/user/model_user.dart';
+import 'package:hospital_management/model/user/model_user_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../enums.dart';
 
 class SignInViewModel with ChangeNotifier {
-  Data? dataUser;
+  DataLogin? dataUser;
   Jwt? token;
   String? eror;
 
@@ -30,7 +30,7 @@ class SignInViewModel with ChangeNotifier {
 
       var responseData = await Auth().login(email: email, password: pass);
       if (responseData.statusCode == 200) {
-        ModelUser modelUser = ModelUser.fromJson(responseData.data);
+        ModelUserLogin modelUser = ModelUserLogin.fromJson(responseData.data);
         final prefs = await SharedPreferences.getInstance();
 
         dataUser = modelUser.data;
