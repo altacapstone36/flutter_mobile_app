@@ -13,8 +13,9 @@ import 'package:hospital_management/main.dart';
 void Main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp(
+    await tester.pumpWidget(MyApp(
       showLogin: true,
+      isLogin: true,
     ));
 
     // Verify that our counter starts at 0.

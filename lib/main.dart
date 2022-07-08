@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management/screen/detail_outpatient/detail_outpatient_view_model.dart';
 import 'package:hospital_management/screen/home/home_screen.dart';
 import 'package:hospital_management/screen/detail_patient/detail_patient_view_model.dart';
 import 'package:hospital_management/screen/outpatient/outpatient_view_model.dart';
@@ -18,21 +19,30 @@ Future<void> main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final showLogin = prefs.getBool('showLogin') ?? false;
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => DetailPatientViewModel()),
-    ChangeNotifierProvider(create: (_) => PatientViewModel()),
-    ChangeNotifierProvider(create: (_) => ReportViewModel()),
-    ChangeNotifierProvider(create: (_) => SignInViewModel()),
-    ChangeNotifierProvider(create: (_) => HomeViewModel()),
-    ChangeNotifierProvider(
-      create: (_) => OutpatientViewModel(),
-    ),
-  ], child: MyApp(showLogin: showLogin)));
+  final isLogin = prefs.getBool('isLogin') ?? false;
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => DetailOutpatientViewModel()),
+        ChangeNotifierProvider(create: (_) => DetailPatientViewModel()),
+        ChangeNotifierProvider(create: (_) => PatientViewModel()),
+        ChangeNotifierProvider(create: (_) => ReportViewModel()),
+        ChangeNotifierProvider(create: (_) => SignInViewModel()),
+        ChangeNotifierProvider(create: (_) => HomeViewModel()),
+        ChangeNotifierProvider(
+          create: (_) => OutpatientViewModel(),
+        ),
+      ],
+      child: MyApp(
+        showLogin: showLogin,
+        isLogin: isLogin,
+      )));
 }
 
 class MyApp extends StatelessWidget {
   final bool showLogin;
-  const MyApp({Key? key, required this.showLogin}) : super(key: key);
+  final bool isLogin;
+  const MyApp({Key? key, required this.showLogin, required this.isLogin})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,7 +53,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
       ),
       //home: OnboardingScreen(),
-      initialRoute: showLogin ? '/signin' : '/onBoarding',
+      initialRoute: (showLogin && isLogin)
+          ? '/home'
+          : (showLogin)
+              ? '/signin'
+              : '/onBoarding',
       routes: {
         '/onBoarding': (context) => const OnboardingScreen(),
         '/signin': (context) => const SignIn(),
