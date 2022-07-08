@@ -12,7 +12,7 @@ class ScheduleScreen extends StatefulWidget {
   State<ScheduleScreen> createState() => _ScheduleScreenState();
 }
 
-String date = DateFormat('EEE, dd/mm/yyyy').format(DateTime.now());
+String date = DateFormat('EEE, MM/dd/yyyy').format(DateTime.now());
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
@@ -41,8 +41,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           children: [
             Card(
               child: ListTile(
-                leading: const Icon(Icons.calendar_today_outlined),
-                title: TextButton(
+                leading: IconButton(
                     onPressed: () async {
                       DateTime? datePicked = await showDatePicker(
                           context: context,
@@ -50,21 +49,22 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2050));
                       if (datePicked != null) {
-                        String dateFormat = DateFormat('EEE, dd/mm/yyyy')
-                            .format(DateTime.now());
+                        String dateFormat =
+                            DateFormat('EEE, MM/dd/yyyy').format(datePicked);
                         setState(() {
                           date = dateFormat;
                         });
                         print(date);
                       }
                     },
-                    child: Text(
-                      date,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400),
-                    )),
+                    icon: const Icon(Icons.calendar_today_outlined)),
+                title: Text(
+                  date,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400),
+                ),
                 //Text(DateFormat('EEE, dd/mm/yyyy').format(DateTime.now())),
                 trailing: Wrap(
                   spacing: 5,
