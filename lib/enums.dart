@@ -1,2 +1,2 @@
 enum MenuState { home, patient, outpatient, other }
-enum DataState { loading, succes, error }
+enum DataState { idle, loading, succes, error }
