@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management/constants.dart';
-import 'package:hospital_management/screen/forgot_pass/forgot_pass.dart';
-import 'package:hospital_management/screen/home/home_screen.dart';
+import 'package:hospital_management/screen/forgot_pass/forgot_password_screen.dart';
 import 'package:hospital_management/screen/signin/sign_in_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,17 +27,7 @@ class _SignInState extends State<SignIn> {
   @override
   void initState() {
     super.initState();
-    // checkLogin();
   }
-
-  // void checkLogin() async {
-  //   prefs = await SharedPreferences.getInstance();
-  //   isLogin = prefs.getBool('isLogin') ?? false;
-
-  //   if (isLogin == true) {
-  //     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-  //   }
-  // }
 
   @override
   void dispose() {
@@ -221,9 +210,9 @@ class _SignInState extends State<SignIn> {
                       child: const Text(
                         "Forgot Password",
                         style: TextStyle(
-                          color: kDarkColor,
+                          color: kPrimaryColor,
                           fontFamily: "Nunito",
-                          fontSize: 12.0,
+                          fontSize: 14.0,
                         ),
                       ),
                     )
