@@ -5,12 +5,10 @@ import 'package:hospital_management/components/bottom_nav_bar.dart';
 import 'package:hospital_management/enums.dart';
 import 'package:hospital_management/screen/detail_outpatient/component/form_doctor.dart';
 import 'package:hospital_management/screen/detail_outpatient/component/form_nurse.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
-import '../../model/user/model_user.dart';
+import '../../model/user/model_user_login.dart';
 
 class DetailOutpatient extends StatefulWidget {
   const DetailOutpatient(
@@ -32,12 +30,13 @@ class DetailOutpatient extends StatefulWidget {
 
 class _DetailOutpatientState extends State<DetailOutpatient> {
   String? roles;
-  void checkUser() async {
+
+  void checkRoles() async {
     var pref = await SharedPreferences.getInstance();
     var data = pref.getString('user');
     if (data != null) {
       var userDecode = jsonDecode(data);
-      Data userData = Data.fromJson(userDecode);
+      DataLogin userData = DataLogin.fromJson(userDecode);
       setState(() {
         roles = userData.roles;
       });
@@ -46,7 +45,7 @@ class _DetailOutpatientState extends State<DetailOutpatient> {
 
   @override
   void initState() {
-    checkUser();
+    checkRoles();
     super.initState();
   }
 
@@ -131,7 +130,11 @@ class _DetailOutpatientState extends State<DetailOutpatient> {
                 ),
               ),
               Column(children: [
-                roles == 'Doctor' ? const FormDoctor() : const FormNurse()
+                roles == 'Doctor'
+                    ? FormDoctor(idPatient: widget.idPasien)
+                    : FormNurse(
+                        idPatient: widget.idPasien,
+                      )
               ])
             ],
           ),
