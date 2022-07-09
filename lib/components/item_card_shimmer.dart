@@ -33,9 +33,12 @@ class ItemCardShimmer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Container(
-                        width: size.width * 0.12,
-                        height: 20,
-                        color: Colors.white)
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white),
+                      width: size.width * 0.12,
+                      height: 20,
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -44,22 +47,39 @@ class ItemCardShimmer extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Container(
-                      height: 19,
-                      width: size.width * 0.18,
-                      color: Colors.white,
+                      height: 18,
+                      width: size.width * 0.3,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white),
                     )),
                 Container(
-                    height: 15, width: size.width * 0.18, color: Colors.white),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  height: 14,
+                  width: size.width * 0.18,
+                ),
                 const SizedBox(
                   height: 5,
                 ),
                 Container(
-                    height: 15, width: size.width * 0.18, color: Colors.white),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  height: 14,
+                  width: size.width * 0.18,
+                ),
                 const SizedBox(
                   height: 5,
                 ),
                 Container(
-                    height: 15, width: size.width * 0.18, color: Colors.white),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  height: 14,
+                  width: size.width * 0.25,
+                ),
                 const SizedBox(
                   height: 5,
                 )
