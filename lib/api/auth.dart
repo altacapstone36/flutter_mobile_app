@@ -15,7 +15,7 @@ class Auth {
   Future<Response> findEmail(String email) async {
     Response response;
     var data = {'email': email};
-    response = await _dio.get(baseUrl + '/find_email', queryParameters: data);
+    response = await _dio.post(baseUrl + '/find_email', data: data);
     return response;
   }
 

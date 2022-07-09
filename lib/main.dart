@@ -6,6 +6,7 @@ import 'package:hospital_management/screen/detail_patient/detail_patient_view_mo
 import 'package:hospital_management/screen/outpatient/outpatient_view_model.dart';
 import 'package:hospital_management/screen/home/home_view_mode.dart';
 import 'package:hospital_management/screen/register/register.dart';
+import 'package:hospital_management/screen/register/register_view_model.dart';
 
 import 'package:hospital_management/screen/signin/sign_in_screen.dart';
 import 'package:hospital_management/screen/onboarding/onboarding_screen.dart';
@@ -29,6 +30,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => PatientViewModel()),
         ChangeNotifierProvider(create: (_) => ReportViewModel()),
         ChangeNotifierProvider(create: (_) => SignInViewModel()),
+        ChangeNotifierProvider(create: (_) => RegisterViewModel()),
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
         ChangeNotifierProvider(
           create: (_) => OutpatientViewModel(),

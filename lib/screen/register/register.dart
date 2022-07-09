@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/components/loading_toast.dart';
+import 'package:hospital_management/model/user/register_model.dart';
+import 'package:hospital_management/screen/register/register_view_model.dart';
 import 'package:hospital_management/screen/signin/sign_in_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 
@@ -293,7 +298,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         ListTile(
           leading: Radio<String>(
-            value: 'Doctor',
+            value: '2',
             groupValue: selectedRole,
             onChanged: (String? value) {
               setState(() {
@@ -305,7 +310,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         ListTile(
           leading: Radio<String>(
-            value: 'Nurse',
+            value: '3',
             groupValue: selectedRole,
             onChanged: (String? value) {
               setState(() {
@@ -341,7 +346,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         ListTile(
           leading: Radio<String>(
-            value: 'General',
+            value: '1',
             groupValue: selectedFacility,
             onChanged: (String? value) {
               setState(() {
@@ -353,7 +358,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         ListTile(
           leading: Radio<String>(
-            value: 'Pediantrecian',
+            value: '2',
             groupValue: selectedFacility,
             onChanged: (String? value) {
               setState(() {
@@ -365,7 +370,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         ListTile(
           leading: Radio<String>(
-            value: 'Dentist',
+            value: '3',
             groupValue: selectedFacility,
             onChanged: (String? value) {
               setState(() {
@@ -378,13 +383,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
         SizedBox(
           width: size.width,
           child: ElevatedButton(
-              onPressed: () {
-                print('name :' + _name.value.text);
-                print('email :' + _email.value.text);
-                print('pass :' + _pass.value.text);
-                print('gender :' + selectedGender);
-                print('role :' + selectedRole);
-                print('facility :' + selectedFacility);
+              onPressed: () async {
+                var viewModel =
+                    Provider.of<RegisterViewModel>(context, listen: false);
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const LoadingToast(message: 'Please Wait...');
+                    });
+
+                var data = RegisterModel(
+                    email: _email.text,
+                    password: _pass.text,
+                    facilityId: int.parse(selectedFacility),
+                    fullName: _name.text,
+                    gender: selectedGender,
+                    roleId: int.parse(selectedRole));
+
+                await viewModel.register(data);
+                Navigator.pop(context);
+                Fluttertoast.showToast(
+                    msg: viewModel.message,
+                    backgroundColor: Colors.white,
+                    textColor: kPrimaryColor);
+
                 Navigator.push(
                     context, MaterialPageRoute(builder: (_) => const SignIn()));
               },
