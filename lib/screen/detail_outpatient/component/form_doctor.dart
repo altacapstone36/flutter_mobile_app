@@ -3,13 +3,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management/components/loading_toast.dart';
 import 'package:hospital_management/enums.dart';
 import 'package:hospital_management/model/outpatient/process_model.dart';
-import 'package:hospital_management/screen/detail_outpatient/component/form_nurse.dart';
 import 'package:hospital_management/screen/patient/components/shimmer_card_patient.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
-import '../../outpatient/outpatient_view_model.dart';
-import '../../patient/components/card_patient.dart';
 import '../detail_outpatient_view_model.dart';
 
 class FormDoctor extends StatefulWidget {
@@ -25,7 +22,8 @@ class _FormDoctorState extends State<FormDoctor> {
   var obat = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isSelected = false;
-  bool selectItem = false;
+  int activeIndex = -1;
+  int selectIndex = -2;
   var code = '';
 
   @override
@@ -106,11 +104,13 @@ class _FormDoctorState extends State<FormDoctor> {
                                                   return GestureDetector(
                                                     onTap: () {
                                                       setStates(() {
+                                                        debugPrint(
+                                                            'index : $index');
                                                         code = viewModel
                                                             .nurse[index].code!;
                                                         debugPrint(code);
-                                                        selectItem =
-                                                            !selectItem;
+                                                        activeIndex = index;
+                                                        selectIndex = index;
                                                       });
                                                     },
                                                     child: Card(
@@ -119,8 +119,8 @@ class _FormDoctorState extends State<FormDoctor> {
                                                               BorderRadius
                                                                   .circular(10),
                                                           side: BorderSide(
-                                                              color: (selectItem ==
-                                                                      true)
+                                                              color: (activeIndex ==
+                                                                      index)
                                                                   ? kPrimaryColor
                                                                   : kSecondaryColor,
                                                               width: 2)),
@@ -150,7 +150,8 @@ class _FormDoctorState extends State<FormDoctor> {
                                           SizedBox(
                                             width: size.width,
                                             child: ElevatedButton(
-                                                onPressed: selectItem
+                                                onPressed: (activeIndex ==
+                                                        selectIndex)
                                                     ? () async {
                                                         setState(() {
                                                           isSelected = true;
