@@ -48,7 +48,12 @@ class ChangePasswordViewModel with ChangeNotifier {
     } on DioError catch (e) {
       if (e.response!.statusCode != 503) {
         ErrorModel error = ErrorModel.fromJson(e.response!.data);
-        message = error.error!;
+        if (error.error == null) {
+          message = 'Failed to Get Data';
+          message = e.response!.data['message'].toString();
+        } else {
+          message = error.error!;
+        }
       } else {
         message = e.response!.statusCode!.toString() + ' Service Unavailable';
         debugPrint(message);

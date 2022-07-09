@@ -24,7 +24,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
   bool _showPassword2 = false;
   String nameButton = '';
   String message = '';
-  bool next = false;
+  bool visible = false;
 
   int activeIndex = 0;
   int totalIndex = 2;
@@ -46,7 +46,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                 ),
               ),
               const SizedBox(
-                height: 15,
+                height: 25,
               ),
               Container(
                   padding: const EdgeInsets.all(20),
@@ -138,33 +138,47 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
           const SizedBox(
             height: 20,
           ),
-          SizedBox(
-            width: size.width,
-            child: ElevatedButton(
-                onPressed: !next
-                    ? () async {
-                        if (_formKey.currentState!.validate()) {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const LoadingToast(
-                                    message: 'Please wait');
-                              });
-                          await viewModel.findEmail(email: _email.text);
-                          Navigator.pop(context);
-                          viewModel.message == 'Email found'
-                              ? setState(() {
-                                  next = !next;
-                                })
-                              : message = viewModel.message;
-                          // setState(() {
-                          //   activeIndex++;
-                          // });
-                        }
-                      }
-                    : () {},
-                style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                child: Text(!next ? 'Find Account' : 'Next')),
+          Visibility(
+            visible: !visible,
+            child: SizedBox(
+              width: size.width,
+              child: ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const LoadingToast(message: 'Please wait');
+                          });
+                      await viewModel.findEmail(email: _email.text);
+                      Navigator.pop(context);
+
+                      viewModel.message == 'Email found'
+                          ? setState(() {
+                              visible = !visible;
+                            })
+                          : message = viewModel.message;
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                  child: const Text('Find Account')),
+            ),
+          ),
+          Visibility(
+            visible: visible,
+            child: SizedBox(
+              width: size.width,
+              child: ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        activeIndex++;
+                      });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                  child: const Text('Next')),
+            ),
           ),
           Center(
             child: Padding(
