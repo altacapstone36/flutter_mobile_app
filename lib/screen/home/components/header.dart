@@ -23,34 +23,12 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-  String? name;
-  String? title;
-  DataLogin userData = DataLogin(
-      id: 0,
-      code: '',
-      email: '',
-      fullName: '---',
-      gender: '-',
-      roles: '-',
-      facility: '-');
-  late SharedPreferences prefs;
-
   @override
   void initState() {
-    // initial();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
       Provider.of<HomeViewModel>(context, listen: false).getUser();
     });
     super.initState();
-  }
-
-  void initial() async {
-    prefs = await SharedPreferences.getInstance();
-    setState(() {
-      var data = prefs.getString('user');
-      var dataDecode = jsonDecode(data!);
-      userData = DataLogin.fromJson(dataDecode);
-    });
   }
 
   String greetingMessage() {
