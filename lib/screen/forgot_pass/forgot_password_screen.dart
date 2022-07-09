@@ -25,6 +25,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
   String nameButton = '';
   String message = '';
   bool visible = false;
+  Color color = Colors.red;
 
   int activeIndex = 0;
   int totalIndex = 2;
@@ -65,8 +66,14 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
               Center(
                 child: TextButton(
                     onPressed: () {
+                      var viewModel = Provider.of<ChangePasswordViewModel>(
+                          context,
+                          listen: false);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (_) => const SignIn()));
+                      setState(() {
+                        viewModel.message = '';
+                      });
                     },
                     child: const Text(
                       'Back to start',
@@ -155,6 +162,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
 
                       viewModel.message == 'Email found'
                           ? setState(() {
+                              color = Colors.green;
                               visible = !visible;
                             })
                           : message = viewModel.message;
@@ -173,6 +181,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
                         activeIndex++;
+                        viewModel.message = '';
                       });
                     }
                   },
@@ -183,7 +192,10 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
           Center(
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: Text(message),
+              child: Text(
+                viewModel.message,
+                style: TextStyle(color: color),
+              ),
             ),
           )
         ],
@@ -300,7 +312,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                     showDialog(
                         context: context,
                         builder: (context) {
-                          return const LoadingToast(message: 'Please wait');
+                          return const LoadingToast(message: 'Please Wait');
                         });
                     await viewModel.forgotPass(pass: _pass.text);
                     Navigator.pop(context);

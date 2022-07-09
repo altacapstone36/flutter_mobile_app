@@ -173,6 +173,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                             message: 'Please Wait..');
                                       });
                                   await viewModel.changePassword(_pass.text);
+                                  Navigator.pop(context);
                                   Fluttertoast.showToast(
                                       msg: viewModel.message,
                                       backgroundColor: Colors.white,
