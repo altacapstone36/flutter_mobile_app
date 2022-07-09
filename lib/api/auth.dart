@@ -24,8 +24,7 @@ class Auth {
     Response response;
     var data = {'password': pass};
     response = await _dio.post(baseUrl + '/forgot_password',
-        data: data,
-        options: Options(headers: {'Authorization': 'Bearer $token'}));
+        data: data, queryParameters: {'token': token});
     return response;
   }
 
@@ -48,7 +47,7 @@ class Auth {
   Future<Response> changePassword(String token, String pass) async {
     Response response;
     var data = {'password': pass};
-    response = await _dio.post(baseUrl + '/change_password',
+    response = await _dio.post(baseUrl + '/profile/change_password',
         data: data,
         options: Options(headers: {'Authorization': 'Bearer $token'}));
     return response;
