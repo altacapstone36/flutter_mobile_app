@@ -50,11 +50,17 @@ class OutpatientViewModel with ChangeNotifier {
           changeState(DataState.succes);
         }
       } on DioError catch (e) {
+        debugPrint(e.message.toString());
         changeState(DataState.error);
+        if (e.response!.data == null) {
+          eror = 'Failed to Get Data';
+        }
         if (e.response!.statusCode != 503) {
+          eror = e.response!.data.toString();
           ErrorModel error = ErrorModel.fromJson(e.response!.data);
           eror = error.error;
           debugPrint(eror);
+          debugPrint(e.response!.statusCode.toString());
         } else {
           eror = e.response!.statusCode!.toString() + ' Service Unavailable';
           debugPrint(e.message.toString());

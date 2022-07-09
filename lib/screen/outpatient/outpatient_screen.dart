@@ -63,9 +63,13 @@ class _OutpatientScreenState extends State<OutpatientScreen> {
               } else if (state.stateType == DataState.error) {
                 return Center(
                   child: Text(
-                    viewModel.eror!,
+                    (viewModel.eror == null)
+                        ? 'Failed to Get Data'
+                        : viewModel.eror!,
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w700),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 );
               } else {

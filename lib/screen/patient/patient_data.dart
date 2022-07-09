@@ -110,7 +110,6 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                       fontWeight: FontWeight.w600, color: kPrimaryColor),
                 ),
               ),
-              // const ListPatient(),
               Expanded(child:
                   Consumer<PatientViewModel>(builder: (context, state, child) {
                 if (state.state == DataState.loading) {
@@ -118,7 +117,9 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                 }
                 if (state.state == DataState.error) {
                   return Center(
-                    child: Text(viewModel.eror!),
+                    child: Text((viewModel.eror == null)
+                        ? 'Failed to Get Data'
+                        : viewModel.eror!),
                   );
                 }
                 return ListView.builder(
