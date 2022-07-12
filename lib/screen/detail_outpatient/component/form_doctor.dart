@@ -183,6 +183,7 @@ class _FormDoctorState extends State<FormDoctor> {
                                                                 Colors.white,
                                                             textColor:
                                                                 kPrimaryColor);
+                                                        Navigator.pop(context);
                                                       }
                                                     : null,
                                                 style: ElevatedButton.styleFrom(
