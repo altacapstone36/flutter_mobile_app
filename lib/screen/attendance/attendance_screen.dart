@@ -3,7 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management/components/bottom_nav_bar.dart';
 import 'package:hospital_management/enums.dart';
+import 'package:hospital_management/screen/attendance/attendance_view_model.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 
@@ -18,7 +20,16 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   String checkIn = '--/--';
   String checkOut = '--/--';
   String imageDone = 'assets/images/done.svg';
-  String imageCheck = 'assets/images/check1.svg';
+  String imageCheckIn = 'assets/images/check1.svg';
+  String imageCheckOut = 'assets/images/check2.svg';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      Provider.of<AttendanceViewModel>(context, listen: false).reset();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +47,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           msg: m,
           gravity: ToastGravity.CENTER,
           fontSize: 18,
-          backgroundColor: kPrimaryColor,
-          textColor: Colors.white,
+          backgroundColor: Colors.white,
+          textColor: kPrimaryColor,
         );
 
     final Size size = MediaQuery.of(context).size;
+    final viewModel = Provider.of<AttendanceViewModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -70,19 +82,28 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   child: Column(
                     children: [
                       SvgPicture.asset(
-                        checkOut != '--/--' ? imageDone : imageCheck,
+                        (viewModel.checkIn == '--/--')
+                            ? imageCheckIn
+                            : (viewModel.checkOut == '--/--')
+                                ? imageCheckOut
+                                : imageDone,
                         height: size.height * 0.3,
                         width: size.height * 0.27,
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 25,
                       ),
                       Text(
-                        checkOut != '--/--'
-                            ? 'You all set, see you tomorrow'
-                            : 'You can check in now. Pump it up!',
+                        (viewModel.checkIn == '--/--' &&
+                                viewModel.checkOut == '--/--')
+                            ? 'You can check in now. Pump it up!'
+                            : (viewModel.checkIn != '--/--' &&
+                                    viewModel.checkOut == '--/--')
+                                ? "You can check out now. \nEnjoy yout time off"
+                                : 'You all set, see you tomorrow',
                         style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
+                            fontSize: 18, fontWeight: FontWeight.w400),
+                        textAlign: TextAlign.center,
                       )
                     ],
                   ),
@@ -92,7 +113,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 height: 30,
               ),
               Text(
-                'Check in time \t\t: $checkIn',
+                'Check in time \t\t: ${viewModel.checkIn}',
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
@@ -100,50 +121,86 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 height: 10,
               ),
               Text(
-                'Check out time : $checkOut',
+                'Check out time : ${viewModel.checkOut}',
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
               const SizedBox(
                 height: 20,
               ),
-              checkOut != '--/--'
-                  ? SizedBox(
-                      width: size.width,
-                      child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              primary: const Color(0xFFB0B0B0)),
-                          child: const Text('All Done for Today',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: kSecondaryColor))),
-                    )
-                  : SizedBox(
-                      width: size.width,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            if (checkIn == '--/--') {
-                              showToast('Check in Succes');
-                              return checkInTime();
-                            }
-                            setState(() {
-                              if (checkOut == '--/--') {
+              Visibility(
+                visible: viewModel.visible,
+                child: SizedBox(
+                  width: size.width,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        checkInTime();
+                        viewModel.visible = !viewModel.visible;
+                        viewModel.checkIn = checkIn;
+                        showToast('Check In Succes');
+                      },
+                      style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                      child: const Text('Check In')),
+                ),
+              ),
+              Visibility(
+                visible: !viewModel.visible,
+                child: SizedBox(
+                  width: size.width,
+                  child: ElevatedButton(
+                      onPressed: (viewModel.checkOut == '--/--')
+                          ? () {
+                              checkOutTime();
+                              setState(() {
+                                // viewModel.visible = !viewModel.visible;
+                                viewModel.checkOut = checkOut;
                                 showToast('Check Out Succes');
-                                return checkOutTime();
-                              }
-                            });
-                          },
-                          style:
-                              ElevatedButton.styleFrom(primary: kPrimaryColor),
-                          child: Text(
-                              checkIn == '--/--' ? 'Check In' : 'Checkout',
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white))),
-                    )
+                              });
+                            }
+                          : null,
+                      style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                      child: Text((viewModel.checkOut == '--/--')
+                          ? 'Check Out'
+                          : 'All done for today')),
+                ),
+              ),
+              // checkOut != '--/--'
+              //     ? SizedBox(
+              //         width: size.width,
+              //         child: ElevatedButton(
+              //             onPressed: () {},
+              //             style: ElevatedButton.styleFrom(
+              //                 primary: const Color(0xFFB0B0B0)),
+              //             child: const Text('All Done for Today',
+              //                 style: TextStyle(
+              //                     fontSize: 16,
+              //                     fontWeight: FontWeight.w600,
+              //                     color: kSecondaryColor))),
+              //       )
+              //     : SizedBox(
+              //         width: size.width,
+              //         child: ElevatedButton(
+              //             onPressed: () {
+              //               if (checkIn == '--/--') {
+              //                 showToast('Check in Succes');
+              //                 return checkInTime();
+              //               }
+              //               setState(() {
+              //                 if (checkOut == '--/--') {
+              //                   showToast('Check Out Succes');
+              //                   return checkOutTime();
+              //                 }
+              //               });
+              //             },
+              //             style:
+              //                 ElevatedButton.styleFrom(primary: kPrimaryColor),
+              //             child: Text(
+              //                 checkIn == '--/--' ? 'Check In' : 'Checkout',
+              //                 style: const TextStyle(
+              //                     fontSize: 16,
+              //                     fontWeight: FontWeight.w600,
+              //                     color: Colors.white))),
+              //       )
             ],
           ),
         ),
