@@ -164,43 +164,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           : 'All done for today')),
                 ),
               ),
-              // checkOut != '--/--'
-              //     ? SizedBox(
-              //         width: size.width,
-              //         child: ElevatedButton(
-              //             onPressed: () {},
-              //             style: ElevatedButton.styleFrom(
-              //                 primary: const Color(0xFFB0B0B0)),
-              //             child: const Text('All Done for Today',
-              //                 style: TextStyle(
-              //                     fontSize: 16,
-              //                     fontWeight: FontWeight.w600,
-              //                     color: kSecondaryColor))),
-              //       )
-              //     : SizedBox(
-              //         width: size.width,
-              //         child: ElevatedButton(
-              //             onPressed: () {
-              //               if (checkIn == '--/--') {
-              //                 showToast('Check in Succes');
-              //                 return checkInTime();
-              //               }
-              //               setState(() {
-              //                 if (checkOut == '--/--') {
-              //                   showToast('Check Out Succes');
-              //                   return checkOutTime();
-              //                 }
-              //               });
-              //             },
-              //             style:
-              //                 ElevatedButton.styleFrom(primary: kPrimaryColor),
-              //             child: Text(
-              //                 checkIn == '--/--' ? 'Check In' : 'Checkout',
-              //                 style: const TextStyle(
-              //                     fontSize: 16,
-              //                     fontWeight: FontWeight.w600,
-              //                     color: Colors.white))),
-              //       )
             ],
           ),
         ),
