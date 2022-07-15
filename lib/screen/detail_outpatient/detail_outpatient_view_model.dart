@@ -119,7 +119,7 @@ class DetailOutpatientViewModel with ChangeNotifier {
         var response = await OutpatientApi()
             .processDoctor(id, tokenModel.accessToken!, data);
 
-        if (response.statusCode == 201) {
+        if (response.statusCode == 200) {
           message = response.data['message'].toString();
           debugPrint(response.data.toString());
           changeState(DataState.succes);
@@ -128,7 +128,7 @@ class DetailOutpatientViewModel with ChangeNotifier {
       } on DioError catch (e) {
         changeState(DataState.error);
         if (e.response!.statusCode == 400) {
-          message = 'Medic Record Already Sumbitted';
+          message = 'Process on Nurse first';
         } else if (e.response!.statusCode == 407) {
           ErrorSubmitModel error = ErrorSubmitModel.fromJson(e.response!.data);
           message = error.message!;
@@ -162,7 +162,7 @@ class DetailOutpatientViewModel with ChangeNotifier {
         var response = await OutpatientApi()
             .processNurse(id, tokenModel.accessToken!, data);
 
-        if (response.statusCode == 201) {
+        if (response.statusCode == 200) {
           message = response.data['message'].toString();
           changeState(DataState.succes);
           notifyListeners();
