@@ -99,7 +99,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             ? 'You can check in now. Pump it up!'
                             : (viewModel.checkIn != '--/--' &&
                                     viewModel.checkOut == '--/--')
-                                ? "You can check out now. \nEnjoy yout time off"
+                                ? "You can check out now. \nEnjoy your time off"
                                 : 'You all set, see you tomorrow',
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w400),
