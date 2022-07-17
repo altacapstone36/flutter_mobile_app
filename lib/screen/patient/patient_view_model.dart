@@ -41,7 +41,7 @@ class PatientViewModel with ChangeNotifier {
           PatientModel responseData = PatientModel.fromJson(response.data);
           List<PatientData>? patientList = responseData.data;
           _patients = patientList!;
-          debugPrint(patientList[1].birthdate.toString());
+          debugPrint(responseData.toString());
           notifyListeners();
           changeState(DataState.succes);
         }

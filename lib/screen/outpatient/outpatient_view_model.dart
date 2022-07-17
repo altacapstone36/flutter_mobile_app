@@ -45,7 +45,6 @@ class OutpatientViewModel with ChangeNotifier {
           List<OutpatientData>? outpatientList = responseData.data;
           _outpatients = outpatientList!;
           notifyListeners();
-          debugPrint(outpatients[1].toString());
           debugPrint(outpatientList.toString());
           changeState(DataState.succes);
         }
