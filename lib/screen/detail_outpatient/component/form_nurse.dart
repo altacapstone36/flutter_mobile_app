@@ -156,6 +156,8 @@ class _FormNurseState extends State<FormNurse> {
                       Fluttertoast.showToast(
                           msg: viewModel.message, gravity: ToastGravity.CENTER);
                       Navigator.pop(context);
+                      Provider.of<OutpatientViewModel>(context, listen: false)
+                          .getOutpatient();
                     }
                   },
                   style: ElevatedButton.styleFrom(primary: kPrimaryColor),

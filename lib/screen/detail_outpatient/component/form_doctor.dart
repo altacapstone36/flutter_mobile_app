@@ -7,6 +7,7 @@ import 'package:hospital_management/screen/patient/components/shimmer_card_patie
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+import '../../outpatient/outpatient_view_model.dart';
 import '../detail_outpatient_view_model.dart';
 
 class FormDoctor extends StatefulWidget {
@@ -277,6 +278,8 @@ class _FormDoctorState extends State<FormDoctor> {
                           backgroundColor: Colors.white,
                           textColor: kPrimaryColor);
                       Navigator.pop(context);
+                      Provider.of<OutpatientViewModel>(context, listen: false)
+                          .getOutpatient();
                     }
                   },
                   style: ElevatedButton.styleFrom(primary: kPrimaryColor),
