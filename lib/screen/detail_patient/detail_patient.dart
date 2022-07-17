@@ -33,7 +33,11 @@ class _DetailPatientScreenState extends State<DetailPatientScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<DetailPatientViewModel>(context);
-    int id = 1;
+    // int id = 0;
+    // int idRecord() {
+    //   List.generate(viewModel.medicRecord.length, (index) => id = index);
+    //   return id;
+    // }
 
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -149,12 +153,17 @@ class _DetailPatientScreenState extends State<DetailPatientScreen> {
                             DataColumn(label: Text('Diagnosa')),
                           ],
                           rows: [
-                            ...viewModel.medicRecord.map((e) => DataRow(cells: [
-                                  DataCell(Text(id.toString())),
-                                  DataCell(Text(e.dateCheck!)),
-                                  DataCell(Text(e.complaint!)),
-                                  DataCell(Text(e.diagnose!)),
-                                ]))
+                            ...List.generate(
+                                viewModel.medicRecord.length,
+                                (index) => DataRow(cells: [
+                                      DataCell(Text('${index + 1}')),
+                                      DataCell(Text(viewModel
+                                          .medicRecord[index].dateCheck!)),
+                                      DataCell(Text(viewModel
+                                          .medicRecord[index].complaint!)),
+                                      DataCell(Text(viewModel
+                                          .medicRecord[index].diagnose!)),
+                                    ]))
                           ]),
                     )
                   ],
