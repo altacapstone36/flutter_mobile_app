@@ -88,7 +88,21 @@ class _FormDoctorState extends State<FormDoctor> {
                                             if (state.stateType ==
                                                 DataState.error) {
                                               return Center(
-                                                child: Text(viewModel.message),
+                                                child: Column(children: [
+                                                  Text(viewModel.message),
+                                                  ElevatedButton(
+                                                      onPressed: () => Provider
+                                                              .of<DetailOutpatientViewModel>(
+                                                                  context,
+                                                                  listen: false)
+                                                          .getNurse(),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                              primary:
+                                                                  kPrimaryColor),
+                                                      child:
+                                                          const Text('Refresh'))
+                                                ]),
                                               );
                                             } else if (state.stateType ==
                                                 DataState.loading) {
@@ -277,8 +291,7 @@ class _FormDoctorState extends State<FormDoctor> {
                           gravity: ToastGravity.CENTER,
                           backgroundColor: Colors.white,
                           textColor: kPrimaryColor);
-                      if (viewModel.message != 'Process on Nurse first' ||
-                          viewModel.message != '500  Service Unavailable') {
+                      if (viewModel.message != 'Process on Nurse first') {
                         Navigator.pop(context);
                         Provider.of<OutpatientViewModel>(context, listen: false)
                             .getOutpatient();

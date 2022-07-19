@@ -62,15 +62,28 @@ class _OutpatientScreenState extends State<OutpatientScreen> {
                 return ItemShimmer(size: size);
               } else if (state.stateType == DataState.error) {
                 return Center(
-                  child: Text(
-                    (viewModel.eror == null)
-                        ? 'Failed to Get Data'
-                        : viewModel.eror!,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          (viewModel.eror == null)
+                              ? 'Failed to Get Data'
+                              : viewModel.eror!,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        ElevatedButton(
+                            onPressed: () => Provider.of<OutpatientViewModel>(
+                                    context,
+                                    listen: false)
+                                .getOutpatient(),
+                            style: ElevatedButton.styleFrom(
+                                primary: kPrimaryColor),
+                            child: const Text('Refresh'))
+                      ]),
                 );
               } else {
                 return GridView.builder(

@@ -117,9 +117,23 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                 }
                 if (state.state == DataState.error) {
                   return Center(
-                    child: Text((viewModel.eror == null)
-                        ? 'Failed to Get Data'
-                        : viewModel.eror!),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text((viewModel.eror == null)
+                            ? 'Failed to Get Data'
+                            : viewModel.eror!),
+                        ElevatedButton(
+                            onPressed: () => Provider.of<PatientViewModel>(
+                                    context,
+                                    listen: false)
+                                .getPatient(),
+                            style: ElevatedButton.styleFrom(
+                                primary: kPrimaryColor),
+                            child: const Text('Refresh'))
+                      ],
+                    ),
                   );
                 }
                 return ListView.builder(
