@@ -277,9 +277,12 @@ class _FormDoctorState extends State<FormDoctor> {
                           gravity: ToastGravity.CENTER,
                           backgroundColor: Colors.white,
                           textColor: kPrimaryColor);
-                      Navigator.pop(context);
-                      Provider.of<OutpatientViewModel>(context, listen: false)
-                          .getOutpatient();
+                      if (viewModel.message != 'Process on Nurse first' ||
+                          viewModel.message != '500  Service Unavailable') {
+                        Navigator.pop(context);
+                        Provider.of<OutpatientViewModel>(context, listen: false)
+                            .getOutpatient();
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(primary: kPrimaryColor),
