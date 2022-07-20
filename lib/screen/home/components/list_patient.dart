@@ -94,7 +94,8 @@ class _PatientListState extends State<PatientList> {
                                               (context, animation,
                                                   secondaryAnimation) {
                                         return DetailOutpatient(
-                                          idPasien: index,
+                                          idPasien:
+                                              viewModel.outpatients[index].id!,
                                           idRecord: id,
                                           waktu: viewModel
                                               .outpatients[index].session!
